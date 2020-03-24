@@ -1,8 +1,10 @@
-![ConnNet Logo](https://github.com/PauSabatesC/ConnNet/blob/master/ConnNet.PNG)  
-========
-# ConnNet - Connections and protocols made easy
+<p align="center">
+  <img src="https://github.com/PauSabatesC/ConnNet/blob/master/ConnNet.PNG" alt="ConnNet logo"/>
+</p>
 
-## A C# client library that is a high level abstraction of the most common communication protocols. ConnNet is probably the fastest way to create client side connections in c#
+## ConnNet - Connections and protocols made easy
+
+### A C# client library that is a high level abstraction of the most common communication protocols. ConnNet is probably the fastest way to create client side connections in c#
 ---
 
 Goals:
@@ -15,5 +17,7 @@ Goals:
 - REST support
 - WebSockets support
 
+---
+In progress: documentation for usability of the library.
 
 > Feel free to contribute! Submit your pull requests or create issues!
