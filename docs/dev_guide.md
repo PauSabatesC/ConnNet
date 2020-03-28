@@ -16,3 +16,4 @@ Requirements to run project:
 
 - Add this line to src/ConnNet/obj/Debug/netstandard2.0/ConnNet.AssemblyInfo.cs
 > [assembly: InternalsVisibleTo("ConnNet.UnitaryTests")]
+> [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
