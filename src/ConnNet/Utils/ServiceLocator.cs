@@ -41,7 +41,7 @@ namespace ConnNet.Utils
             private void LoadBindings()
             {
                 kernel.Bind<ITcpClient>().To<TcpClientAdapter>().InSingletonScope();
-                kernel.Bind<IAsyncSocket>().To<AsyncSocket>().InSingletonScope();
+                kernel.Bind<INetworkStream>().To<NetworkStreamAdapter>().InSingletonScope();
 
             }
         }

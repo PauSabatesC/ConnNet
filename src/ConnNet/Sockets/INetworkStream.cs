@@ -4,8 +4,7 @@ using System.Text;
 
 namespace ConnNet.Sockets
 {
-    internal interface IAsyncSocket
+    internal interface INetworkStream
     {
-        bool AsyncWaitHandle(IAsyncResult request, int connectionTimeout);
     }
 }

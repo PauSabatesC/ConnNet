@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ConnNet.Sockets
 {
@@ -9,9 +10,15 @@ namespace ConnNet.Sockets
         /// <summary>
         /// 
         /// </summary>
-        /// <typeparam name="T"></typeparam>
         /// <returns></returns>
-        T Send<T>();
+        bool Send(string data);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        bool Send(byte[] data);
 
         /// <summary>
         /// Sets parameters to the connection to the server.
@@ -33,7 +40,7 @@ namespace ConnNet.Sockets
         /// Creates a TCP client connection
         /// </summary>
         /// <returns>True if connection is created correctly.</returns>
-        bool Connect();
+        Task<bool> Connect();
 
         /// <summary>
         /// Closes the TCP socket connection correctly.

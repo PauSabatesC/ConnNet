@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConnNet.Utils
+namespace ConnNet.Sockets
 {
-    internal interface IServiceLocator
+    internal class NetworkStreamAdapter : INetworkStream
     {
-        T Get<T>();
 
     }
 }

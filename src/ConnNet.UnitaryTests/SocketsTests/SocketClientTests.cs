@@ -3,7 +3,9 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace ConnNet.UnitaryTests.SocketClientTests
 {
@@ -21,20 +23,19 @@ namespace ConnNet.UnitaryTests.SocketClientTests
         {
         }
 
-        private void NewDefaultSocketClient(ITcpClient mockTcpClient, IAsyncSocket mockAsyncSocket)
+        private void NewDefaultSocketClient(ITcpClient mockTcpClient)
         {
             Ip = "0.0.0.0";
             Port = 80;
-            _socketc = new SocketClient(Ip, Port, mockTcpClient, mockAsyncSocket);
+            _socketc = new SocketClient(Ip, Port, mockTcpClient);
         }
 
         [Test]
         public void SetConnectionTest()
         {
             var mockTcpClient = new Mock<ITcpClient>();
-            var mockedAsyncSocked = new Mock<IAsyncSocket>();
 
-            NewDefaultSocketClient(mockTcpClient.Object, mockedAsyncSocked.Object);
+            NewDefaultSocketClient(mockTcpClient.Object);
             int default_conn_timeout = 5000;
             int conn_timeout = 0;
             //socketc.SetConnection("0.0.0.0", 80);
@@ -50,32 +51,44 @@ namespace ConnNet.UnitaryTests.SocketClientTests
         }
 
         [Test]
-        public void ConnectTest()
+        public async Task ConnectTestIsOk()
         {
-            //aux variables
-            IAsyncResult ar = new Mock<IAsyncResult>().Object;
-            //IAsyncResult mockedIAsyncResult = Mock.Of<IAsyncResult>();
-
-            var mockedAsyncSocked = new Mock<IAsyncSocket>();
-            mockedAsyncSocked.Setup(foo => foo.AsyncWaitHandle(ar, 5000)).Returns(true);
-
-            // --- Test if the connection is ok ---
             var mockTcpClient = new Mock<ITcpClient>();
             mockTcpClient.Setup(foo => foo.Connected()).Returns(true);
-            mockTcpClient.Setup(foo => foo.BeginConnect(_ip,_port,null,null)).Returns(ar);
-            mockTcpClient.Setup(foo => foo.EndConnect(It.IsAny<IAsyncResult>()));
+            mockTcpClient.Setup(foo => foo.Connect("", 80)).Returns(It.IsAny<Task>());
 
-            NewDefaultSocketClient(mockTcpClient.Object, mockedAsyncSocked.Object);
-            bool res = _socketc.Connect();
+            NewDefaultSocketClient(mockTcpClient.Object);
+            bool res = await _socketc.Connect();
             Assert.IsTrue(res);
+            mockTcpClient.Verify(foo => foo.GetStream(), Times.Once());
 
-            //--- Test if connection not okay ---
-            mockTcpClient.Setup(foo => foo.Connected()).Returns(false);
+        }
 
-            NewDefaultSocketClient(mockTcpClient.Object, mockedAsyncSocked.Object);
-            res = _socketc.Connect();
+        [Test]
+        public async Task ConnectTestNotOK()
+        {
+            var mockTcpClient2 = new Mock<ITcpClient>();
+            mockTcpClient2.Setup(foo => foo.Connect("", 80)).Returns(It.IsAny<Task>());
+            mockTcpClient2.Setup(foo => foo.Connected()).Returns(false);
+
+            NewDefaultSocketClient(mockTcpClient2.Object);
+            bool res = await _socketc.Connect();
             Assert.IsFalse(res);
+            mockTcpClient2.Verify(foo => foo.GetStream(), Times.Never());
+        }
 
+
+        [Test]
+        public void SendTest()
+        {
+            var mockTcpClient = new Mock<ITcpClient>();
+
+            NewDefaultSocketClient(mockTcpClient.Object);
+
+            //should return true if all ok
+
+
+            //false if problem
 
 
         }

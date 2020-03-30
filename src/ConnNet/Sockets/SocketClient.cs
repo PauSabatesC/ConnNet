@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading.Tasks;
 using ConnNet.Utils;
 
 namespace ConnNet.Sockets
@@ -14,7 +15,6 @@ namespace ConnNet.Sockets
         private int _sendTimeout;
         private int _receiveTimeout;
         private ITcpClient _clientSocket;
-        private IAsyncSocket _asyncSocket;
 
         public string SocketIP { get => _socketIP; set => _socketIP = value; }
         public int SocketPort { get => _socketPort; set => _socketPort = value; }
@@ -22,7 +22,6 @@ namespace ConnNet.Sockets
         public int SendTimeout { get => _sendTimeout; set => _sendTimeout = value; }
         public int ReceiveTimeout { get => _receiveTimeout; set => _receiveTimeout = value; }
         internal ITcpClient ClientSocket { get => _clientSocket; set => _clientSocket = value; }
-        internal IAsyncSocket AsyncSocket { get => _asyncSocket; set => _asyncSocket = value; }
 
         /// <summary>
         /// Constructor that already sets connecion parameters for socket server connection.
@@ -33,24 +32,18 @@ namespace ConnNet.Sockets
             :this(
                     socketIP, 
                     socketPort, 
-                    ServiceLocator.Current.Get<ITcpClient>(), 
-                    ServiceLocator.Current.Get<IAsyncSocket>()
+                    ServiceLocator.Current.Get<ITcpClient>()
                  )
         { }
 
-        internal SocketClient(string socketIP, int socketPort, ITcpClient tcpClient, IAsyncSocket asyncSocket)
+        internal SocketClient(string socketIP, int socketPort, ITcpClient tcpClient)
         {
             SocketIP = socketIP;
             SocketPort = socketPort;
             ClientSocket = tcpClient;
-            AsyncSocket = asyncSocket;
             ConnectionTimeout = 5000;
         }
 
-        public T Send<T>()
-        {
-            throw new NotImplementedException();
-        }
 
         public void SetConnection(string serverIp, int serverPort) => SetConnection(serverIp, serverPort, 5000);
 
@@ -61,8 +54,7 @@ namespace ConnNet.Sockets
             ConnectionTimeout = connectionTimeout;
         }
 
-        //TODO: maybe some retries can be added
-        public bool Connect()
+        /*public bool Connect()
         {
             bool result = false;
 
@@ -79,6 +71,18 @@ namespace ConnNet.Sockets
             }
 
             return result;
+        }*/
+
+        public async Task<bool> Connect()
+        {
+            await ClientSocket.Connect(SocketIP, SocketPort);
+
+            if (ClientSocket.Connected())
+            {
+                ClientSocket.GetStream();
+                return true;
+            }
+            else return false;
         }
 
 
@@ -91,6 +95,14 @@ namespace ConnNet.Sockets
             }
         }
 
+        public bool Send(string data)
+        {
+            throw new NotImplementedException();
+        }
 
+        public bool Send(byte[] data)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

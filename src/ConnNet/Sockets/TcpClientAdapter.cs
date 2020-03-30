@@ -1,13 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace ConnNet.Sockets
 {
-    public class TcpClientAdapter : ITcpClient
+    internal class TcpClientAdapter : ITcpClient //TODO: i don't want this class to be public. but being internal i think test crashes. need to investigate.
     {
         private readonly TcpClient _tcpClient;
+        private NetworkStream _networkStream;
 
         public TcpClientAdapter()
         {
@@ -21,22 +21,32 @@ namespace ConnNet.Sockets
 
         public void Close()
         {
-            throw new NotImplementedException();
+            _tcpClient.Close();
+        }
+
+        public async Task Connect(string ip, int port)
+        {
+            await _tcpClient.ConnectAsync(ip, port).ConfigureAwait(false);
         }
 
         public bool Connected()
         {
-            throw new NotImplementedException();
+            return _tcpClient.Connected;
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _tcpClient.Dispose();
         }
 
         public void EndConnect(IAsyncResult request)
         {
-            throw new NotImplementedException();
+            _tcpClient.EndConnect(request);
+        }
+
+        public void GetStream()
+        {
+            _networkStream = _tcpClient.GetStream();
         }
     }
 }
