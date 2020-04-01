@@ -48,5 +48,14 @@ namespace ConnNet.Sockets
         {
             _networkStream = _tcpClient.GetStream();
         }
+
+        public async Task SendData(byte[] data)
+        {
+            //await Task.WhenAll(_networkStream.WriteAsync(BitConverter.GetBytes(data.Length), 0, 4), _networkStream.WriteAsync(data, 0, data.Length)).ConfigureAwait(false);
+            await _networkStream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
+
+        }
+
+
     }
 }

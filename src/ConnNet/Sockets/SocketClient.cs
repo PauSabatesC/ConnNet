@@ -44,38 +44,14 @@ namespace ConnNet.Sockets
             ConnectionTimeout = 5000;
         }
 
-
-        public void SetConnection(string serverIp, int serverPort) => SetConnection(serverIp, serverPort, 5000);
-
-        public void SetConnection(string serverIp, int serverPort, int connectionTimeout)
+        public void SetConnectionOptions(int connectionTimeout)
         {
-            SocketIP = serverIp;
-            SocketPort = serverPort;
             ConnectionTimeout = connectionTimeout;
         }
 
-        /*public bool Connect()
-        {
-            bool result = false;
-
-            IAsyncResult request = _clientSocket.BeginConnect(_socketIP, _socketPort, null, null);
-            bool success = _asyncSocket.AsyncWaitHandle(request,ConnectionTimeout);
-            if (_clientSocket.Connected())
-            {
-                _clientSocket.EndConnect(request);
-                result = true;
-            }
-            else
-            {
-                _clientSocket.Close();
-            }
-
-            return result;
-        }*/
-
         public async Task<bool> Connect()
         {
-            await ClientSocket.Connect(SocketIP, SocketPort);
+            await ClientSocket.Connect(SocketIP, SocketPort); //TODO: can I add connection timeout and other options?
 
             if (ClientSocket.Connected())
             {
@@ -95,14 +71,15 @@ namespace ConnNet.Sockets
             }
         }
 
-        public bool Send(string data)
+        public void Send(string data)
         {
-            throw new NotImplementedException();
+            byte[] dataB = Encoding.ASCII.GetBytes(data);    
+            Send(dataB);
         }
 
-        public bool Send(byte[] data)
+        public void Send(byte[] data)
         {
-            throw new NotImplementedException();
+            ClientSocket.SendData(data);
         }
     }
 }

@@ -11,29 +11,20 @@ namespace ConnNet.Sockets
         /// 
         /// </summary>
         /// <returns></returns>
-        bool Send(string data);
+        void Send(string data);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        bool Send(byte[] data);
-
-        /// <summary>
-        /// Sets parameters to the connection to the server.
-        /// </summary>
-        /// <param name="serverIp"></param>
-        /// <param name="serverPort"></param>
-        void SetConnection(string serverIp, int serverPort);
+        void Send(byte[] data);
         
         /// <summary>
         /// Sets parameters to the connection to the server.
         /// </summary>
-        /// <param name="serverIp"></param>
-        /// <param name="serverPort"></param>
         /// <param name="connectionTimeout">In miliseconds</param>
-        void SetConnection(string serverIp, int serverPort, int connectionTimeout);
+        void SetConnectionOptions(int connectionTimeout);
 
 
         /// <summary>

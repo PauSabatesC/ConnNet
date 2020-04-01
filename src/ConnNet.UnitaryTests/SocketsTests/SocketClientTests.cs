@@ -36,17 +36,20 @@ namespace ConnNet.UnitaryTests.SocketClientTests
             var mockTcpClient = new Mock<ITcpClient>();
 
             NewDefaultSocketClient(mockTcpClient.Object);
-            int default_conn_timeout = 5000;
             int conn_timeout = 0;
-            //socketc.SetConnection("0.0.0.0", 80);
-            Assert.AreEqual(Ip, _socketc.SocketIP);
-            Assert.AreEqual(Port, _socketc.SocketPort);
-            Assert.AreEqual(default_conn_timeout, _socketc.ConnectionTimeout);
-
-            _socketc.SetConnection("0.0.0.0", 80,0);
+            _socketc.SetConnectionOptions(0);
             Assert.AreEqual(conn_timeout, _socketc.ConnectionTimeout);
 
 
+
+        }
+
+        [Test]
+        public void SetConnectionTestArgumentValidation()
+        {
+            //check null received
+
+            //
 
         }
 
@@ -75,6 +78,17 @@ namespace ConnNet.UnitaryTests.SocketClientTests
             bool res = await _socketc.Connect();
             Assert.IsFalse(res);
             mockTcpClient2.Verify(foo => foo.GetStream(), Times.Never());
+        }
+
+        public async Task ConnectionTestArgumentValidation()
+        {
+            //if null received 
+
+            //if string no ip format
+
+            //if string is dns
+
+            //if port is <0
         }
 
 

@@ -12,6 +12,7 @@ namespace ConnNet.Sockets
         void Close();
         Task Connect(string ip, int port);
         void GetStream();
+        Task SendData(byte[] data);
 
     }
 }
