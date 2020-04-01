@@ -2,6 +2,7 @@ using NUnit.Framework;
 
 namespace ConnNet.IntegrationTests
 {
+    [TestFixture]
     public class Tests
     {
         [SetUp]

@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 
 namespace ConnNet.UnitaryTests.SocketClientTests
 {
+    [TestFixture]
     public class SocketClientTests
     {
         private SocketClient _socketc;
