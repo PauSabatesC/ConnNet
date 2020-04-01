@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Sockets;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ConnNet.Utils;
 
+[assembly: InternalsVisibleTo("ConnNet.UnitaryTests")]
+[assembly: InternalsVisibleTo("ConnNet.IntegrationTests")]
 namespace ConnNet.Sockets
 {
-    public class SocketClient : ISocketClient
+
+    public sealed class SocketClient : ISocketClient
     {
         private string _socketIP;
         private int _socketPort;

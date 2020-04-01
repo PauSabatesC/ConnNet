@@ -21,7 +21,7 @@ packages-microsoft-prod.deb
 mono_crash.*
 
 # Build results
-####[Dd]ebug/
+[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -32,7 +32,7 @@ x86/
 [Aa][Rr][Mm]64/
 bld/
 [Bb]in/
-####[Oo]bj
+[Oo]bj/
 [Ll]og/
 [Ll]ogs/
 
@@ -49,9 +49,9 @@ Generated\ Files/
 [Bb]uild[Ll]og.*
 
 # NUnit
-####*.VisualState.xml
-####TestResult.xml
-####nunit-*.xml
+*.VisualState.xml
+TestResult.xml
+nunit-*.xml
 
 # Build Results of an ATL Project
 [Dd]ebugPS/
