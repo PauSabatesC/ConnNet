@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ConnNet.Sockets
 {
-    internal interface ITcpClient
+    public interface ITcpClient
     {
         IAsyncResult BeginConnect(string host, int port, AsyncCallback requestCallback, object state);
         bool Connected();
