@@ -1,0 +1,8 @@
+C:\Projects\ConnNet\src\ConnNet\bin\Debug\netstandard2.0\ConnNet.deps.json
+C:\Projects\ConnNet\src\ConnNet\bin\Debug\netstandard2.0\ConnNet.dll
+C:\Projects\ConnNet\src\ConnNet\bin\Debug\netstandard2.0\ConnNet.pdb
+C:\Projects\ConnNet\src\ConnNet\obj\Debug\netstandard2.0\ConnNet.AssemblyInfoInputs.cache
+C:\Projects\ConnNet\src\ConnNet\obj\Debug\netstandard2.0\ConnNet.AssemblyInfo.cs
+C:\Projects\ConnNet\src\ConnNet\obj\Debug\netstandard2.0\ConnNet.dll
+C:\Projects\ConnNet\src\ConnNet\obj\Debug\netstandard2.0\ConnNet.pdb
+C:\Projects\ConnNet\src\ConnNet\obj\Debug\netstandard2.0\ConnNet.csprojAssemblyReference.cache
