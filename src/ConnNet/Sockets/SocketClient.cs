@@ -8,6 +8,7 @@ using ConnNet.Utils;
 
 [assembly: InternalsVisibleTo("ConnNet.UnitaryTests")]
 [assembly: InternalsVisibleTo("ConnNet.IntegrationTests")]
+[assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace ConnNet.Sockets
 {
 
@@ -18,21 +19,21 @@ namespace ConnNet.Sockets
         private int _connectionTimeout;
         private int _sendTimeout;
         private int _receiveTimeout;
-        private ITcpClient _clientSocket;
+        private ITcpClient _TcpClient;
 
         public string SocketIP { get => _socketIP; set => _socketIP = value; }
         public int SocketPort { get => _socketPort; set => _socketPort = value; }
         public int ConnectionTimeout { get => _connectionTimeout; set => _connectionTimeout = value; }
         public int SendTimeout { get => _sendTimeout; set => _sendTimeout = value; }
         public int ReceiveTimeout { get => _receiveTimeout; set => _receiveTimeout = value; }
-        internal ITcpClient ClientSocket { get => _clientSocket; set => _clientSocket = value; }
+        internal ITcpClient TcpClient { get => _TcpClient; set => _TcpClient = value; }
 
         /// <summary>
-        /// Constructor that already sets connecion parameters for socket server connection.
+        /// Constructor that sets connecion ip and port dor socket server connection.
         /// </summary>
-        /// <param name="socketIP"></param>
-        /// <param name="socketPort"></param>
-        public SocketClient(string socketIP, int socketPort) 
+        /// <param name="socketIP">IP represented as string.</param>
+        /// <param name="socketPort">Port number of the server listening.</param>
+        public SocketClient(string socketIP, int socketPort)
             :this(
                     socketIP, 
                     socketPort, 
@@ -44,7 +45,7 @@ namespace ConnNet.Sockets
         {
             SocketIP = socketIP;
             SocketPort = socketPort;
-            ClientSocket = tcpClient;
+            TcpClient = tcpClient;
             ConnectionTimeout = 5000;
         }
 
@@ -55,35 +56,42 @@ namespace ConnNet.Sockets
 
         public async Task<bool> Connect()
         {
-            await ClientSocket.Connect(SocketIP, SocketPort); //TODO: can I add connection timeout and other options?
+            bool success = false;
+            await TcpClient.Connect(SocketIP, SocketPort); //TODO: can I add connection timeout and other options?
 
-            if (ClientSocket.Connected())
+            if (TcpClient.Connected())
             {
-                ClientSocket.GetStream();
-                return true;
+                TcpClient.GetStream();
+                if (TcpClient.IsValidNetStream()) success = true;
+                else success = false;
             }
-            else return false;
+            else success = false;
+
+            return success;
         }
 
 
         public void Disconnect()
         {
-            if (_clientSocket.Connected())
+            if (_TcpClient.Connected())
             {
-                _clientSocket.Dispose();
-                _clientSocket.Close();
+                _TcpClient.Dispose();
+                _TcpClient.Close();
             }
         }
 
-        public void Send(string data)
+        public async Task<bool> Send(string data)
         {
-            byte[] dataB = Encoding.ASCII.GetBytes(data);    
-            Send(dataB);
+            if (string.IsNullOrWhiteSpace(data)) throw new ArgumentException(data, "Message to send can not be empty.");
+
+            return await Send(Utils.Conversor.StringToBytes(data)) ? true : false;
         }
 
-        public void Send(byte[] data)
+        public async Task<bool> Send(byte[] data) //TODO: I also want to specify a timeout in the send petition
         {
-            ClientSocket.SendData(data);
+            if (data is null) throw new ArgumentNullException();
+
+            return await TcpClient.SendData(data) ? true : false;
         }
     }
 }

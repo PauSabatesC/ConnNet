@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace ConnNet.Sockets
 {
-    public interface ITcpClient
+    internal interface ITcpClient
     {
         IAsyncResult BeginConnect(string host, int port, AsyncCallback requestCallback, object state);
         bool Connected();
@@ -12,7 +12,8 @@ namespace ConnNet.Sockets
         void Close();
         Task Connect(string ip, int port);
         void GetStream();
-        Task SendData(byte[] data);
+        Task<bool> SendData(byte[] data);
+        bool IsValidNetStream();
 
     }
 }

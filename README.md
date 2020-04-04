@@ -2,9 +2,9 @@
   <img src="https://github.com/PauSabatesC/ConnNet/blob/master/ConnNet.PNG" alt="ConnNet logo"/>
 </p>
 
-[![Build status develop](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/connnet-kaa6k)
+Develop: [![Build status develop](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/connnet-kaa6k)
 
-[![Build status master](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/master?svg=true)](https://ci.appveyor.com/project/PauSabatesC/connnet-kaa6k/branch/master)
+Master: [![Build status master](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/master?svg=true)](https://ci.appveyor.com/project/PauSabatesC/connnet-kaa6k/branch/master)
 
 
 ## ConnNet - Connections and protocols made easy

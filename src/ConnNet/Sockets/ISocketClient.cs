@@ -8,17 +8,17 @@ namespace ConnNet.Sockets
     public interface ISocketClient
     {
         /// <summary>
-        /// 
+        /// Sends as an array ogf bytes the string of data specified to the socket server.
         /// </summary>
         /// <returns></returns>
-        void Send(string data);
+        Task<bool> Send(string data);
 
         /// <summary>
-        /// 
+        /// Sends as an array ogf bytes the data specified to the socket server.
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        void Send(byte[] data);
+        Task<bool> Send(byte[] data);
         
         /// <summary>
         /// Sets parameters to the connection to the server.
