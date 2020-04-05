@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConnNet.Sockets
@@ -7,7 +8,7 @@ namespace ConnNet.Sockets
     internal class TcpClientAdapter : ITcpClient
     {
         private readonly TcpClient _tcpClient;
-        private NetworkStream _networkStream;
+        private NetworkStream _networkStream = null;
 
         public TcpClientAdapter()
         {
@@ -49,15 +50,14 @@ namespace ConnNet.Sockets
             _networkStream = _tcpClient?.GetStream();
         }
 
-        public async Task<bool> SendData(byte[] data)
+        public async Task SendData(byte[] data, CancellationToken ctkn)
         {
             //await Task.WhenAll(_networkStream.WriteAsync(BitConverter.GetBytes(data.Length), 0, 4), _networkStream.WriteAsync(data, 0, data.Length)).ConfigureAwait(false);
-            await _networkStream.WriteAsync(data, 0, data.Length).ConfigureAwait(false);
-            return true;
-            //if timeout return false?
+            await _networkStream.WriteAsync(data, 0, data.Length, ctkn).ConfigureAwait(false);
         }
 
         public bool IsValidNetStream() => (_networkStream is null) ? false : true;
 
+        public bool CanWrite() => _networkStream.CanWrite;
     }
 }

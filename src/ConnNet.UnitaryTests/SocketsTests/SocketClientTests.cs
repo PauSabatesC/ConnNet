@@ -3,8 +3,10 @@ using Moq;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConnNet.UnitaryTests.SocketClientTests
@@ -75,7 +77,8 @@ namespace ConnNet.UnitaryTests.SocketClientTests
         /// Requirements:
         /// -[DONE] _socketc returns true or false if conenction has established 
         /// -[DONE] ITcpClient.GetStream() is called if connection is ok, if not it's not called 
-        /// -[DONE] if the connection is ok but ocurred a problem getting network stream returns false 
+        /// -[DONE] if the connection is ok but ocurred a problem getting network stream returns false
+        /// -[TODO] if connection reaches timeout
         /// </summary>
         [Test]
         public async Task ConnectTestNotOK()
@@ -108,7 +111,8 @@ namespace ConnNet.UnitaryTests.SocketClientTests
         /// -[TODO] if null received 
         /// -[TODO] if string no ip format 
         /// -[TODO] if string is dns 
-        /// -[TODO] if port is <0 
+        /// -[TODO] if port is <0
+        /// -[TODO] if received connectionTimeout too, check if >= 0
         /// </summary>
         /// <returns></returns>
         public async Task ConnectionTestArgumentValidation()
@@ -120,55 +124,77 @@ namespace ConnNet.UnitaryTests.SocketClientTests
         /// <summary>
         /// Requirements:
         /// -[DONE] receives valid string 
-        /// -[TODO] should mirror return of send(byte[]) if false, it returns false
+        /// -[DONE] should mirror return of send(byte[]) so it has to end up calling ITcpClient.Send()
         /// </summary>
         [Test]
         public async Task SendStringTest()
         {
             var mockTcpClient = new Mock<ITcpClient>();
-            mockTcpClient.Setup(foo => foo.SendData(It.IsAny<byte[]>())).Returns(It.Is<Task<bool>>(x => true));
+            mockTcpClient.Setup(foo => foo.IsValidNetStream()).Returns(true);
+            mockTcpClient.Setup(foo => foo.CanWrite()).Returns(true);
             //receives a valid string
             NewDefaultSocketClient(mockTcpClient.Object);
             Assert.ThrowsAsync<ArgumentException>(() =>  _socketc.Send(""));
             Assert.ThrowsAsync<ArgumentException>(() => _socketc.Send(" "));
 
-            //should mirror return of send(byte[]) if false, it returns false
-            bool res = await _socketc.Send("test");
-            Assert.IsTrue(res);
-            mockTcpClient.Setup(foo => foo.SendData(It.IsAny<byte[]>())).Returns(It.Is<Task<bool>>(x => true));
+            //should mirror return of send(byte[]) so it has to end up calling ITcpClient.Send()
             NewDefaultSocketClient(mockTcpClient.Object);
-            res = await _socketc.Send("test");
-            Assert.IsFalse(res);
+            await _socketc.Send("test");
+            mockTcpClient.Verify(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>()), Times.Once());
+            
         }
 
         /// <summary>
         /// Requirements:
-        /// -[DONE] receives valid byte[] 
-        /// -[DONE] calls ITcpClient.SendData(byte[]) and awaits
-        /// -[TODO] returns true if ITcpClient.SendData(byte[]) is true and reverse
+        /// -[DONE] send(byte[]) should mirror return of send(byte[], int) so it has to end up calling ITcpClient.Send()
+        /// -[DONE] catch IOException thrown for timeout and resend with user friendly message
+        /// -[DONE] check timeout is >=0
+        /// -[DONE] check ITcpClient.IsValidStream() is true before call ITcpClient.SendData(byte[])
         /// </summary>
         [Test]
         public async Task SendBytesTest()
         {
-            //receives a valid string
             var mockTcpClient = new Mock<ITcpClient>();
-
+            mockTcpClient.Setup(foo => foo.IsValidNetStream()).Returns(true);
+            mockTcpClient.Setup(foo => foo.CanWrite()).Returns(true);
             NewDefaultSocketClient(mockTcpClient.Object);
-            byte[] nullBytes = null;
-            Assert.ThrowsAsync<ArgumentNullException>(() => _socketc.Send(nullBytes));
-
-            //calls ITcpClient.SendData(byte[]) and awaits
             byte[] testBytes = Utils.Conversor.StringToBytes("test");
-            await _socketc.Send(testBytes);
-            mockTcpClient.Verify(foo => foo.SendData(testBytes), Times.Once());
 
-            //returns true if ITcpClient.SendData(byte[]) is true and reverse            
-            mockTcpClient.Setup(foo => foo.SendData(It.IsAny<byte[]>())).Returns(Task.FromResult(true)).Verifiable();
-            NewDefaultSocketClient(mockTcpClient.Object);
+            //check timeout is >=0
+            Assert.ThrowsAsync<ArgumentException>(() => _socketc.Send(testBytes, -5000));
+            Assert.ThrowsAsync<ArgumentException>(() => _socketc.Send(testBytes, 0));
+
+            //send(byte[]) should mirror return of send(byte[], int) so it has to end up calling ITcpClient.Send()
+            //byte[] byteTest = new byte[] { 0x04 };
+            int timeoutTest = 5000;
+
+            await _socketc.Send(testBytes);
+            mockTcpClient.Verify(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>()), Times.AtLeastOnce());
+            await _socketc.Send(testBytes, timeoutTest);
+            mockTcpClient.Verify(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>()), Times.AtLeastOnce());
+            //mockTcpClient.Setup(foo => foo.SendData(It.IsAny<byte[]>())).Returns(Task.FromResult(true)).Verifiable();
+            //mockTcpClient.Setup(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>())).Returns(It.IsAny<Task>()).Verifiable();
             
-            byte[] byteTest = new byte[] { 0x04 };
-            bool res = await _socketc.Send(byteTest);
-            Assert.IsTrue(res);
+
+            //check ITcpClient.IsValidStream() is true before call ITcpClient.SendData(byte[])
+            var mockTcpClient2 = new Mock<ITcpClient>();
+            mockTcpClient2.Setup(foo => foo.IsValidNetStream()).Returns(false);
+            mockTcpClient2.Setup(foo => foo.CanWrite()).Returns(true);
+            NewDefaultSocketClient(mockTcpClient2.Object);
+            Assert.ThrowsAsync<Exception>(() => _socketc.Send(testBytes, 5000));
+            mockTcpClient2.Setup(foo => foo.IsValidNetStream()).Returns(true);
+            mockTcpClient2.Setup(foo => foo.CanWrite()).Returns(false);
+            NewDefaultSocketClient(mockTcpClient2.Object);
+            Assert.ThrowsAsync<Exception>(() => _socketc.Send(testBytes, 5000));
+
+            //catch IOException thrown for timeout and resend with user friendly message
+            var mockTcpClient3 = new Mock<ITcpClient>();
+            mockTcpClient3.Setup(foo => foo.IsValidNetStream()).Returns(true);
+            mockTcpClient3.Setup(foo => foo.CanWrite()).Returns(true);
+            mockTcpClient3.Setup(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>())).Throws(new IOException()).Verifiable();
+            NewDefaultSocketClient(mockTcpClient3.Object);
+            var ex = Assert.ThrowsAsync<IOException>(() => _socketc.Send(testBytes, 5000));
+            Assert.That(ex.Message, Is.EqualTo("Timeout of " + 5000.ToString() + " trying to send the data."));
 
         }
 

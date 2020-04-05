@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace ConnNet.Sockets
@@ -12,8 +13,8 @@ namespace ConnNet.Sockets
         void Close();
         Task Connect(string ip, int port);
         void GetStream();
-        Task<bool> SendData(byte[] data);
+        Task SendData(byte[] data, CancellationToken ctkn);
         bool IsValidNetStream();
-
+        bool CanWrite();
     }
 }

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Sockets;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using ConnNet.Utils;
 
@@ -47,6 +49,8 @@ namespace ConnNet.Sockets
             SocketPort = socketPort;
             TcpClient = tcpClient;
             ConnectionTimeout = 5000;
+            SendTimeout = 10000;
+            ReceiveTimeout = 10000;
         }
 
         public void SetConnectionOptions(int connectionTimeout)
@@ -80,18 +84,39 @@ namespace ConnNet.Sockets
             }
         }
 
-        public async Task<bool> Send(string data)
+        public async Task Send(string data)
         {
             if (string.IsNullOrWhiteSpace(data)) throw new ArgumentException(data, "Message to send can not be empty.");
 
-            return await Send(Utils.Conversor.StringToBytes(data)) ? true : false;
+            await Send(Utils.Conversor.StringToBytes(data), SendTimeout);
         }
 
-        public async Task<bool> Send(byte[] data) //TODO: I also want to specify a timeout in the send petition
+        public async Task Send(byte[] data)
+        {
+            await Send(data, SendTimeout);
+        }
+
+        public async Task Send(byte[] data, int sendTimeout)
         {
             if (data is null) throw new ArgumentNullException();
+            if (sendTimeout <= 0) throw new ArgumentException(sendTimeout.ToString(), "Timeout has to be greater than 0.");
+            
+            using (var writeCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(sendTimeout)))
+            {
+                try
+                {
+                    if(TcpClient.IsValidNetStream() && TcpClient.CanWrite()) await TcpClient.SendData(data, writeCts.Token);
+                    else throw new Exception("Network stream to send data is not initialized or it's busy. You should create a tcp connection first with SocketClient constructor and check that no errors appear.");
+                    //TODO: change exception type
+                }
+                catch(IOException)
+                {
+                    throw new IOException("Timeout of " + sendTimeout + " trying to send the data.");
+                }
+            }
+            
 
-            return await TcpClient.SendData(data) ? true : false;
+
         }
     }
 }

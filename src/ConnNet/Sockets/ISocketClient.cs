@@ -11,21 +11,20 @@ namespace ConnNet.Sockets
         /// Sends as an array ogf bytes the string of data specified to the socket server.
         /// </summary>
         /// <returns></returns>
-        Task<bool> Send(string data);
+        Task Send(string data);
 
         /// <summary>
         /// Sends as an array ogf bytes the data specified to the socket server.
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        Task<bool> Send(byte[] data);
+        Task Send(byte[] data);
         
         /// <summary>
         /// Sets parameters to the connection to the server.
         /// </summary>
         /// <param name="connectionTimeout">In miliseconds</param>
         void SetConnectionOptions(int connectionTimeout);
-
 
         /// <summary>
         /// Creates a TCP client connection
