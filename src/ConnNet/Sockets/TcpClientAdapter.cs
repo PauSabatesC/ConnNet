@@ -25,8 +25,13 @@ namespace ConnNet.Sockets
             _tcpClient.Close();
         }
 
-        public async Task Connect(string ip, int port)
+        public async Task Connect(string ip, int port, int timeout)
         {
+            //.ConfigureAwait(false) it's recommended so the user will not use the library like
+            // Connect.Result() because it will be synchronous.
+            // In UI apps is useful ConfigureAwait(false) due to SynchronizationContext with UI thread,
+            // but in other scenarios it might not be so useful. For instance, with ASP.NET Core there
+            // is no SynchronizationContext. So being this a general library, it might be a good option to use it.
             await _tcpClient.ConnectAsync(ip, port).ConfigureAwait(false);
         }
 
@@ -52,8 +57,8 @@ namespace ConnNet.Sockets
 
         public async Task SendData(byte[] data, CancellationToken ctkn)
         {
-            //await Task.WhenAll(_networkStream.WriteAsync(BitConverter.GetBytes(data.Length), 0, 4), _networkStream.WriteAsync(data, 0, data.Length)).ConfigureAwait(false);
             await _networkStream.WriteAsync(data, 0, data.Length, ctkn).ConfigureAwait(false);
+            await _networkStream.FlushAsync();
         }
 
         public bool IsValidNetStream() => (_networkStream is null) ? false : true;

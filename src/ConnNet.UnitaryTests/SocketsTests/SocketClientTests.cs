@@ -147,7 +147,7 @@ namespace ConnNet.UnitaryTests.SocketClientTests
         /// <summary>
         /// Requirements:
         /// -[DONE] send(byte[]) should mirror return of send(byte[], int) so it has to end up calling ITcpClient.Send()
-        /// -[DONE] catch IOException thrown for timeout and resend with user friendly message
+        /// -[DONE] catch OperationCanceledException thrown for timeout and resend with user friendly message
         /// -[DONE] check timeout is >=0
         /// -[DONE] check ITcpClient.IsValidStream() is true before call ITcpClient.SendData(byte[])
         /// </summary>
@@ -155,6 +155,7 @@ namespace ConnNet.UnitaryTests.SocketClientTests
         public async Task SendBytesTest()
         {
             var mockTcpClient = new Mock<ITcpClient>();
+            mockTcpClient.Setup(foo => foo.Connected()).Returns(true);
             mockTcpClient.Setup(foo => foo.IsValidNetStream()).Returns(true);
             mockTcpClient.Setup(foo => foo.CanWrite()).Returns(true);
             NewDefaultSocketClient(mockTcpClient.Object);
@@ -178,23 +179,41 @@ namespace ConnNet.UnitaryTests.SocketClientTests
 
             //check ITcpClient.IsValidStream() is true before call ITcpClient.SendData(byte[])
             var mockTcpClient2 = new Mock<ITcpClient>();
+            mockTcpClient.Setup(foo => foo.Connected()).Returns(true);
             mockTcpClient2.Setup(foo => foo.IsValidNetStream()).Returns(false);
             mockTcpClient2.Setup(foo => foo.CanWrite()).Returns(true);
             NewDefaultSocketClient(mockTcpClient2.Object);
             Assert.ThrowsAsync<Exception>(() => _socketc.Send(testBytes, 5000));
+            mockTcpClient.Setup(foo => foo.Connected()).Returns(true);
             mockTcpClient2.Setup(foo => foo.IsValidNetStream()).Returns(true);
             mockTcpClient2.Setup(foo => foo.CanWrite()).Returns(false);
             NewDefaultSocketClient(mockTcpClient2.Object);
             Assert.ThrowsAsync<Exception>(() => _socketc.Send(testBytes, 5000));
 
-            //catch IOException thrown for timeout and resend with user friendly message
+            //catch OperationCanceledException thrown for timeout and resend with user friendly message
             var mockTcpClient3 = new Mock<ITcpClient>();
+            mockTcpClient.Setup(foo => foo.Connected()).Returns(true);
             mockTcpClient3.Setup(foo => foo.IsValidNetStream()).Returns(true);
             mockTcpClient3.Setup(foo => foo.CanWrite()).Returns(true);
-            mockTcpClient3.Setup(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>())).Throws(new IOException()).Verifiable();
+            mockTcpClient3.Setup(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>())).Throws(new OperationCanceledException()).Verifiable();
             NewDefaultSocketClient(mockTcpClient3.Object);
-            var ex = Assert.ThrowsAsync<IOException>(() => _socketc.Send(testBytes, 5000));
+            var ex = Assert.ThrowsAsync<OperationCanceledException>(() => _socketc.Send(testBytes, 5000));
             Assert.That(ex.Message, Is.EqualTo("Timeout of " + 5000.ToString() + " trying to send the data."));
+
+        }
+
+
+        /// <summary>
+        /// Requirements:
+        /// -[TODO] should return a string or bye[] depending the generic
+        /// -[TODO] can receive string or byte delimitator Example:"<etx>" so read only until then
+        /// -[TODO] can receive timeout so OperationCanceledException exception has to be handled with custom message
+        /// -[TODO] can receive number of bytes to read
+        /// -[TODO] 
+        /// </summary>
+        [Test]
+        public void ReceiveTest()
+        {
 
         }
 

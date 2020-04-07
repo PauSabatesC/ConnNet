@@ -61,7 +61,7 @@ namespace ConnNet.Sockets
         public async Task<bool> Connect()
         {
             bool success = false;
-            await TcpClient.Connect(SocketIP, SocketPort); //TODO: can I add connection timeout and other options?
+            await TcpClient.Connect(SocketIP, SocketPort); //TODO: add connection timeout and other options
 
             if (TcpClient.Connected())
             {
@@ -105,18 +105,23 @@ namespace ConnNet.Sockets
             {
                 try
                 {
-                    if(TcpClient.IsValidNetStream() && TcpClient.CanWrite()) await TcpClient.SendData(data, writeCts.Token);
+                    if(TcpClient.Connected() &&
+                       TcpClient.IsValidNetStream() && 
+                       TcpClient.CanWrite()
+                       ) await TcpClient.SendData(data, writeCts.Token);
                     else throw new Exception("Network stream to send data is not initialized or it's busy. You should create a tcp connection first with SocketClient constructor and check that no errors appear.");
                     //TODO: change exception type
                 }
-                catch(IOException)
+                catch(OperationCanceledException)
                 {
-                    throw new IOException("Timeout of " + sendTimeout + " trying to send the data.");
+                    throw new OperationCanceledException("Timeout of " + sendTimeout + " trying to send the data.");
                 }
             }
-            
+        }
 
-
+        public T Receive<T>()
+        {
+            throw new NotImplementedException();
         }
     }
 }

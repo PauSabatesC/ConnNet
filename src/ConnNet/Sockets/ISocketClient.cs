@@ -36,5 +36,10 @@ namespace ConnNet.Sockets
         /// Closes the TCP socket connection correctly.
         /// </summary>
         void Disconnect();
+
+        /// <summary>
+        /// Receives the message sent by the socket server.
+        /// </summary>
+        T Receive<T>(); //TODO: should analyze if I return a generic type
     }
 }
