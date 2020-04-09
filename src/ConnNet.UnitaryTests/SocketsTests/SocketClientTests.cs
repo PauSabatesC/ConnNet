@@ -21,11 +21,6 @@ namespace ConnNet.UnitaryTests.SocketClientTests
         public string Ip { get => _ip; set => _ip = value; }
         public int Port { get => _port; set => _port = value; }
 
-        [SetUp]
-        public void Setup()
-        {
-        }
-
         private void NewDefaultSocketClient(ITcpClient mockTcpClient)
         {
             Ip = "0.0.0.0";
@@ -47,8 +42,6 @@ namespace ConnNet.UnitaryTests.SocketClientTests
             int conn_timeout = 0;
             _socketc.SetConnectionOptions(0);
             Assert.AreEqual(conn_timeout, _socketc.ConnectionTimeout);
-
-
 
         }
 
@@ -92,7 +85,6 @@ namespace ConnNet.UnitaryTests.SocketClientTests
             Assert.IsFalse(res);
             mockTcpClient.Verify(foo => foo.GetStream(), Times.Never());
 
-
             //if the connection is ok but ocurred a problem getting network stream
             var mockTcpClient2 = new Mock<ITcpClient>();
             mockTcpClient2.Setup(foo => foo.Connect("", 80)).Returns(It.IsAny<Task>());
@@ -119,7 +111,6 @@ namespace ConnNet.UnitaryTests.SocketClientTests
         {
 
         }*/
-
 
         /// <summary>
         /// Requirements:
@@ -177,7 +168,6 @@ namespace ConnNet.UnitaryTests.SocketClientTests
             //mockTcpClient.Setup(foo => foo.SendData(It.IsAny<byte[]>())).Returns(Task.FromResult(true)).Verifiable();
             //mockTcpClient.Setup(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>())).Returns(It.IsAny<Task>()).Verifiable();
             
-
             //check ITcpClient.IsValidStream() is true before call ITcpClient.SendData(byte[])
             var mockTcpClient2 = new Mock<ITcpClient>();
             mockTcpClient.Setup(foo => foo.Connected()).Returns(true);
@@ -209,7 +199,6 @@ namespace ConnNet.UnitaryTests.SocketClientTests
 
         }
 
-
         /// <summary>
         /// Requirements:
         /// -[TODO] should return a string or byte[]
@@ -232,9 +221,6 @@ namespace ConnNet.UnitaryTests.SocketClientTests
             NewDefaultSocketClient(mockTcpClient.Object);
             string recString = await _socketc.ReceiveString();
             Assert.AreEqual("test", recString);
-
-
-
         }
 
 
