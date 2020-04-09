@@ -40,6 +40,8 @@ namespace ConnNet.Sockets
         /// <summary>
         /// Receives the message sent by the socket server.
         /// </summary>
-        T Receive<T>(); //TODO: should analyze if I return a generic type
+        //T Receive<T>(); //TODO: should analyze if I return a generic type
+        Task<byte[]> ReceiveBytes();
+        Task<string> ReceiveString();
     }
 }

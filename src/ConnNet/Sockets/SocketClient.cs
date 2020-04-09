@@ -22,6 +22,7 @@ namespace ConnNet.Sockets
         private int _sendTimeout;
         private int _receiveTimeout;
         private ITcpClient _TcpClient;
+        private List<byte> _incomingData;
 
         public string SocketIP { get => _socketIP; set => _socketIP = value; }
         public int SocketPort { get => _socketPort; set => _socketPort = value; }
@@ -29,6 +30,7 @@ namespace ConnNet.Sockets
         public int SendTimeout { get => _sendTimeout; set => _sendTimeout = value; }
         public int ReceiveTimeout { get => _receiveTimeout; set => _receiveTimeout = value; }
         internal ITcpClient TcpClient { get => _TcpClient; set => _TcpClient = value; }
+        internal List<byte> IncomingData { get => _incomingData; set => _incomingData = value; }
 
         /// <summary>
         /// Constructor that sets connecion ip and port dor socket server connection.
@@ -119,9 +121,39 @@ namespace ConnNet.Sockets
             }
         }
 
-        public T Receive<T>()
+        public async Task<byte[]> ReceiveBytes()
         {
-            throw new NotImplementedException();
+            if(TcpClient.CanRead())
+            {
+                IncomingData = new List<byte>();
+                byte[] buffer = new byte[512];
+                int bytesRead = 0;
+                var infoRead = new KeyValuePair<int, byte[]>();
+
+                while (TcpClient.DataAvailable())
+                {
+                    using (var readCts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                        infoRead = await TcpClient.ReadData(buffer, readCts.Token);
+                    bytesRead = infoRead.Key;
+                    buffer = infoRead.Value;
+
+                    byte[] tempData = new byte[bytesRead];
+                    Array.Copy(buffer, 0, tempData, 0, bytesRead);
+                    IncomingData.AddRange(tempData);
+                    
+                }
+                return IncomingData.ToArray();
+            }
+            else throw new Exception("The socket client could not start reading. Check if the server allows it or the socket client has initialized correctly.");
+
         }
+
+        public async Task<string> ReceiveString()
+        {
+            var ret = await ReceiveBytes();
+            return Encoding.ASCII.GetString(ret);
+        }
+
+
     }
 }

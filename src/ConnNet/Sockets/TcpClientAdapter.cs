@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -25,7 +26,7 @@ namespace ConnNet.Sockets
             _tcpClient.Close();
         }
 
-        public async Task Connect(string ip, int port, int timeout)
+        public async Task Connect(string ip, int port)
         {
             //.ConfigureAwait(false) it's recommended so the user will not use the library like
             // Connect.Result() because it will be synchronous.
@@ -64,5 +65,14 @@ namespace ConnNet.Sockets
         public bool IsValidNetStream() => (_networkStream is null) ? false : true;
 
         public bool CanWrite() => _networkStream.CanWrite;
+
+        public bool CanRead() => _networkStream.CanRead;
+        public bool DataAvailable() => _networkStream.DataAvailable;
+
+        public async Task<KeyValuePair<int,byte[]>> ReadData(byte[] buffer, CancellationToken ctkn)
+        {
+            int bytesRead = await _networkStream.ReadAsync(buffer, 0, buffer.Length, ctkn);
+            return new KeyValuePair<int, byte[]> (bytesRead, buffer);
+        }
     }
 }
