@@ -2,13 +2,14 @@
   <img src="https://github.com/PauSabatesC/ConnNet/blob/master/ConnNet.PNG" alt="ConnNet logo"/>
 </p>
 
-[![CodeFactor](https://www.codefactor.io/repository/github/pausabatesc/connnet/badge/develop)](https://www.codefactor.io/repository/github/pausabatesc/connnet/overview/develop)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/97b9677cd0354202b7d0bb4fd9e364fb)](https://www.codacy.com/manual/PauSabatesC/ConnNet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PauSabatesC/ConnNet&amp;utm_campaign=Badge_Grade)
+[![CodeFactor](https://www.codefactor.io/repository/github/pausabatesc/socknet/badge)](https://www.codefactor.io/repository/github/pausabatesc/socknet)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/97b9677cd0354202b7d0bb4fd9e364fb)](https://www.codacy.com/manual/PauSabatesC/SockNet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PauSabatesC/SockNet&amp;utm_campaign=Badge_Grade)
 
 | Branch                 | Build status |
 |------------------------|--------------|
-| Master                 | [![Build status master](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/master?svg=true)](https://ci.appveyor.com/project/PauSabatesC/connnet-kaa6k/branch/master) |
-| Develop                | [![Build status develop](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/connnet-kaa6k) |
+| Master                 | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k) |
+| Develop                | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/develop?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k/branch/develop)
+|
 
 ## ConnNet - Connections and protocols made easy
 
