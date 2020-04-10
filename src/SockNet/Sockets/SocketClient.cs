@@ -8,8 +8,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using ConnNet.Utils;
 
-[assembly: InternalsVisibleTo("ConnNet.UnitaryTests")]
-[assembly: InternalsVisibleTo("ConnNet.IntegrationTests")]
+[assembly: InternalsVisibleTo("SockNet.UnitaryTests")]
+[assembly: InternalsVisibleTo("SockNet.IntegrationTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace ConnNet.Sockets
 {

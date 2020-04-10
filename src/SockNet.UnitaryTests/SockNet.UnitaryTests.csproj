@@ -16,8 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ConnNet.IntegrationTests\ConnNet.IntegrationTests.csproj" />
-    <ProjectReference Include="..\ConnNet\ConnNet.csproj" />
+    <ProjectReference Include="..\SockNet.IntegrationTests\SockNet.IntegrationTests.csproj" />
+    <ProjectReference Include="..\SockNet\SockNet.csproj" />
   </ItemGroup>
 
 </Project>
