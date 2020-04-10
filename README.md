@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/PauSabatesC/ConnNet/blob/master/ConnNet.PNG" alt="ConnNet logo"/>
+  <img src="https://github.com/PauSabatesC/SockNet/blob/master/SockNet.PNG" alt="SockNet logo"/>
 </p>
 
 [![CodeFactor](https://www.codefactor.io/repository/github/pausabatesc/socknet/badge)](https://www.codefactor.io/repository/github/pausabatesc/socknet)
