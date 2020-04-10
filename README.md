@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/PauSabatesC/SockNet/blob/master/SockNet.PNG" alt="SockNet logo"/>
+  <img src="https://github.com/PauSabatesC/SockNet/blob/develop/SockNet.PNG" alt="SockNet logo"/>
 </p>
 
 [![CodeFactor](https://www.codefactor.io/repository/github/pausabatesc/socknet/badge)](https://www.codefactor.io/repository/github/pausabatesc/socknet)
@@ -8,25 +8,19 @@
 | Branch                 | Build status |
 |------------------------|--------------|
 | Master                 | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k) |
-| Develop                | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/develop?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k/branch/develop)
-|
+| Develop                | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/develop?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k/branch/develop) |
 
-## ConnNet - Connections and protocols made easy
+## SockNet - Probably the easiest and fastest way to work with sockets in C#.
 
-### A C# client library that is a high level abstraction of the most common communication protocols. ConnNet is probably the fastest way to create client side connections in c#
+### This library is like a wrapper of common tcp and network streams libaries in order to act as a more high-level and user friendly api to deal with socket communications.
+---
+## Why?
+TODO
+## User Guide and Examples
+```cs
+  //TODO
+```
+
 ---
 
-Goals:
-- Asyncrhonous and Synchronous petitions.
-- Generic return type parameters
-- Handle secure protocols
-- Automatic retries for connection issues
-- Socket support
-- FTP support
-- REST support
-- WebSockets support
-
----
-In progress: documentation for usability of the library.
-
-> Feel free to contribute! Submit your pull requests or create issues!
+> Feel free to contribute! Submit your pull requests or report issues!
