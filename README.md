@@ -10,17 +10,26 @@
 | Master                 | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k) |
 | Develop                | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/develop?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k/branch/develop) |
 
-## SockNet - Probably the easiest and fastest way to work with sockets in C#.
+# **Probably the easiest and fastest way to work with sockets in C#.**
 
-### This library is like a wrapper of common tcp and network streams libaries in order to act as a more high-level and user friendly api to deal with socket communications.
+### This library is a wrapper of common tcp and network streams libaries in order to act as a more high-level and user friendly api to deal with socket communications.
+---
+## Features
+- **Production ready** library. Forget to waste time testing buffers and tcp framing communication, we cover you.
+- **Asynchronous** connections and petitions.
+- **User friendly API** with many method overloads to satisfy all user use cases.
+- **Client and Server** sockets creation. Use it just for your .Net Client or for both client and server!
+
 ---
 ## Why?
 TODO
-## User Guide and Examples
+
+---
+## User Guide with examples
 ```cs
   //TODO
 ```
 
 ---
 
-> Feel free to contribute! Submit your pull requests or report issues!
+> Feel free to contribute! Submit your pull requests, report issues or propose new features!
