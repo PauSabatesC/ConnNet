@@ -10,14 +10,16 @@
 | Master                 | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k) |
 | Develop                | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/develop?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k/branch/develop) |
 
-# **Probably the easiest and fastest way to work with sockets in C#.**
+<h1 align="center">
+  The easiest and fastest way to work with sockets in C#
+</h1>
 
-### This library is a wrapper of common tcp and network streams libaries in order to act as a more high-level and user friendly api to deal with socket communications.
+### This library is a wrapper of common tcp and network streams libaries in order to act as a more high-level and developer friendly api to deal with socket communications.
 ---
 ## Features
 - **Production ready** library. Forget to waste time testing buffers and tcp framing communication, we cover you.
-- **Asynchronous** connections and petitions.
-- **User friendly API** with many method overloads to satisfy all user use cases.
+- **Asynchronous** connections and write/read petitions.
+- **Developer friendly API** with many method overloads to satisfy all user use cases.
 - **Client and Server** sockets creation. Use it just for your .Net Client or for both client and server!
 
 ---

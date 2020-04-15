@@ -4,7 +4,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ConnNet.Sockets
+namespace SockNet.ClientSocket
 {
     internal class TcpClientAdapter : ITcpClient
     {

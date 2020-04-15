@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConnNet.Utils
+namespace SockNet.Utils
 {
     internal interface IServiceLocator
     {

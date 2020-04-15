@@ -1,4 +1,4 @@
-﻿using ConnNet.Sockets;
+﻿using SockNet.ClientSocket;
 using Moq;
 using NUnit.Framework;
 using System;
@@ -9,7 +9,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ConnNet.UnitaryTests.SocketClientTests
+namespace SockNet.UnitaryTests.SocketClientTests
 {
     [TestFixture]
     public class SocketClientTests

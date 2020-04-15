@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-namespace ConnNet.IntegrationTests
+namespace SockNet.IntegrationTests
 {
     [TestFixture]
     public class Tests

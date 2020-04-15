@@ -6,12 +6,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using ConnNet.Utils;
+using SockNet.Utils;
 
 [assembly: InternalsVisibleTo("SockNet.UnitaryTests")]
 [assembly: InternalsVisibleTo("SockNet.IntegrationTests")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
-namespace ConnNet.Sockets
+namespace SockNet.ClientSocket
 {
 
     public sealed class SocketClient : ISocketClient
@@ -22,15 +22,17 @@ namespace ConnNet.Sockets
         private int _sendTimeout;
         private int _receiveTimeout;
         private ITcpClient _TcpClient;
-        private List<byte> _incomingData;
+        private byte[] _messageReaded;
+        private int _bufferSize;
 
-        public string SocketIP { get => _socketIP; set => _socketIP = value; }
-        public int SocketPort { get => _socketPort; set => _socketPort = value; }
-        public int ConnectionTimeout { get => _connectionTimeout; set => _connectionTimeout = value; }
-        public int SendTimeout { get => _sendTimeout; set => _sendTimeout = value; }
-        public int ReceiveTimeout { get => _receiveTimeout; set => _receiveTimeout = value; }
-        internal ITcpClient TcpClient { get => _TcpClient; set => _TcpClient = value; }
-        internal List<byte> IncomingData { get => _incomingData; set => _incomingData = value; }
+        public string SocketIP { get => _socketIP; }
+        public int SocketPort { get => _socketPort; }
+        public int ConnectionTimeout { get => _connectionTimeout; }
+        public int SendTimeout { get => _sendTimeout; }
+        public int ReceiveTimeout { get => _receiveTimeout; }
+        internal ITcpClient TcpClient { get => _TcpClient; }
+        public byte[] MessageReaded { get => _messageReaded; }
+        public int BufferSize { get => _bufferSize; }
 
         /// <summary>
         /// Constructor that sets connecion ip and port dor socket server connection.
@@ -47,23 +49,20 @@ namespace ConnNet.Sockets
 
         internal SocketClient(string socketIP, int socketPort, ITcpClient tcpClient)
         {
-            SocketIP = socketIP;
-            SocketPort = socketPort;
-            TcpClient = tcpClient;
-            ConnectionTimeout = 5000;
-            SendTimeout = 10000;
-            ReceiveTimeout = 10000;
-        }
-
-        public void SetConnectionOptions(int connectionTimeout)
-        {
-            ConnectionTimeout = connectionTimeout;
+            _socketIP = socketIP;
+            _socketPort = socketPort;
+            _TcpClient = tcpClient;
+            _connectionTimeout = 5000;
+            _sendTimeout = 10000;
+            _receiveTimeout = 10000;
+            _bufferSize = 512;
+            
         }
 
         public async Task<bool> Connect()
         {
             bool success = false;
-            await TcpClient.Connect(SocketIP, SocketPort); //TODO: add connection timeout and other options
+            await TcpClient.Connect(SocketIP, SocketPort);
 
             if (TcpClient.Connected())
             {
@@ -79,16 +78,16 @@ namespace ConnNet.Sockets
 
         public void Disconnect()
         {
-            if (_TcpClient.Connected())
+            if (TcpClient.Connected())
             {
-                _TcpClient.Dispose();
-                _TcpClient.Close();
+                TcpClient.Dispose();
+                TcpClient.Close();
             }
         }
 
         public async Task Send(string data)
         {
-            if (string.IsNullOrWhiteSpace(data)) throw new ArgumentException(data, "Message to send can not be empty.");
+            if (string.IsNullOrWhiteSpace(data)) throw new ArgumentException(data, "The message to send can not be empty.");
 
             await Send(Utils.Conversor.StringToBytes(data), SendTimeout);
         }
@@ -123,37 +122,44 @@ namespace ConnNet.Sockets
 
         public async Task<byte[]> ReceiveBytes()
         {
-            if(TcpClient.CanRead())
-            {
-                IncomingData = new List<byte>();
-                byte[] buffer = new byte[512];
-                int bytesRead = 0;
-                var infoRead = new KeyValuePair<int, byte[]>();
-
-                while (TcpClient.DataAvailable())
-                {
-                    using (var readCts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
-                        infoRead = await TcpClient.ReadData(buffer, readCts.Token);
-                    bytesRead = infoRead.Key;
-                    buffer = infoRead.Value;
-
-                    byte[] tempData = new byte[bytesRead];
-                    Array.Copy(buffer, 0, tempData, 0, bytesRead);
-                    IncomingData.AddRange(tempData);
-                    
-                }
-                return IncomingData.ToArray();
-            }
-            else throw new Exception("The socket client could not start reading. Check if the server allows it or the socket client has initialized correctly.");
+            _messageReaded = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(TcpClient, BufferSize);
+            return _messageReaded;
+            throw new NotImplementedException();
 
         }
 
-        public async Task<string> ReceiveString()
+        public Task<byte[]> ReceiveBytes(int bufferSize)
         {
-            var ret = await ReceiveBytes();
-            return Encoding.ASCII.GetString(ret);
+            throw new NotImplementedException();
         }
 
+        public Task<byte[]> ReceiveNumberOfBytes(int bufferSize, int numberBytesToRead)
+        {
+            throw new NotImplementedException();
+        }
 
+        public Task<byte[]> ReceiveBytesWithDelimitators(byte startDelimitator, byte endDelimitator)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<byte[]> ReceiveBytesWithEndDelimitator(byte endDelimitator)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<byte[]> ReceiveNumberO(byte endDelimitator)
+        {
+            throw new NotImplementedException();
+        }
+
+        /// <summary>
+        /// Converts the message received in bytes to ASCII string.
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return Encoding.ASCII.GetString(_messageReaded);
+        }
     }
 }

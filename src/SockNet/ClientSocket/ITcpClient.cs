@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ConnNet.Sockets
+namespace SockNet.ClientSocket
 {
     internal interface ITcpClient
     {
