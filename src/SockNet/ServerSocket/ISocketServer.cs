@@ -35,12 +35,12 @@ namespace SockNet.ServerSocket
         /// <summary>
         /// 
         /// </summary>
-        void SetReaderBytes();
+        void CloseServer();
 
         /// <summary>
         /// 
         /// </summary>
-        void CloseServer();
+        void SetReaderBytes();
 
         /// <summary>
         /// 
