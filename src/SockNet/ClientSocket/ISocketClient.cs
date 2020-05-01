@@ -59,8 +59,13 @@ namespace SockNet.ClientSocket
         /// <param name="endDelimitator"></param>
         /// <returns></returns>
         Task<byte[]> ReceiveBytesWithDelimitators(byte startDelimitator, byte endDelimitator);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="endDelimitator"></param>
+        /// <returns></returns>
         Task<byte[]> ReceiveBytesWithEndDelimitator(byte endDelimitator);
-        Task<byte[]> ReceiveNumberO(byte endDelimitator);
     
     }
 }

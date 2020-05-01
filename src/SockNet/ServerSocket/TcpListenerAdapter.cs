@@ -11,12 +11,12 @@ namespace SockNet.ServerSocket
     class TcpListenerAdapter : ITcpServer
     {
         private TcpListener _tcpListener;
-        private TcpClient _tcpClient;
+        //private TcpClient _tcpClient;
+        //private NetworkStream _tcpStream;
 
         public void CreateTcpListener(IPAddress ip, int port)
         {
-            _tcpListener = new TcpListener(ip, port);
-            
+            _tcpListener = new TcpListener(ip, port);           
         }
 
         public void Start()
@@ -24,11 +24,13 @@ namespace SockNet.ServerSocket
             _tcpListener.Start();
         }
 
-        public async Task AcceptTcpClientAsync()
+        public async Task<TcpClient> AcceptTcpClientAsync()
         {
             var res = await _tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
-            _tcpClient = res;
+            return res;
         }
+    
+        public NetworkStream GetTcpClientStream(TcpClient client) => client.GetStream();
 
     }
 }

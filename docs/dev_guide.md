@@ -1,5 +1,5 @@
 - Development methodology:
-    - TDD
+    - TDD //at the beginning it was a full TDD project, but due to unclear requirements with a lot of architectural changes, it's okay to unit test only for now.
 
 - Principles:
     - SOLID
@@ -10,6 +10,7 @@
     - facade pattern: in order to pass socket interface to library.
     - adapter pattern: used to mock sealed libraries from microsoft(like System.Net.Sockets)
 	- strategy pattern(fot different read variations)
+	- observer pattern(for receiving update when server reads data)//not used yet, and implementation with locks for multithreading instead is used
 
 ---
 

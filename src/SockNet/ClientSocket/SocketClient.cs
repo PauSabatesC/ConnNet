@@ -124,8 +124,6 @@ namespace SockNet.ClientSocket
         {
             _messageReaded = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(TcpClient, BufferSize);
             return _messageReaded;
-            throw new NotImplementedException();
-
         }
 
         public Task<byte[]> ReceiveBytes(int bufferSize)
@@ -144,11 +142,6 @@ namespace SockNet.ClientSocket
         }
 
         public Task<byte[]> ReceiveBytesWithEndDelimitator(byte endDelimitator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<byte[]> ReceiveNumberO(byte endDelimitator)
         {
             throw new NotImplementedException();
         }
