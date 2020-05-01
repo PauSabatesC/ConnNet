@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -20,5 +21,8 @@ namespace SockNet.ClientSocket
         bool CanWrite();
         bool CanRead();
         bool DataAvailable();
+        void SetTcpClient(TcpClient client);
+        string GetClientIP();
+
     }
 }

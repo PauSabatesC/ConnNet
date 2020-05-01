@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ namespace SockNet.ClientSocket
 {
     internal class TcpClientAdapter : ITcpClient
     {
-        private readonly TcpClient _tcpClient;
+        private TcpClient _tcpClient;
         private NetworkStream _networkStream = null;
 
         public TcpClientAdapter()
@@ -73,6 +74,16 @@ namespace SockNet.ClientSocket
         {
             int bytesRead = await _networkStream.ReadAsync(buffer, 0, buffer.Length, ctkn);
             return new KeyValuePair<int, byte[]> (bytesRead, buffer);
+        }
+
+        public void SetTcpClient(TcpClient client)
+        {
+            _tcpClient = client;
+        }
+
+        public string GetClientIP()
+        {
+            return ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
         }
     }
 }

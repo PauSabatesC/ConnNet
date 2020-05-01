@@ -30,7 +30,5 @@ namespace SockNet.ServerSocket
             return res;
         }
     
-        public NetworkStream GetTcpClientStream(TcpClient client) => client.GetStream();
-
     }
 }

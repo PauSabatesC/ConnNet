@@ -1,4 +1,5 @@
-﻿using SockNet.Utils;
+﻿using SockNet.ClientSocket;
+using SockNet.Utils;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -13,6 +14,7 @@ namespace SockNet.ServerSocket
     {
 
         private ITcpServer _listener;
+        private ITcpClient _tcpClient;
         private CancellationTokenSource _cts;
         private CancellationToken _token;
         private IPAddress _ip;
@@ -35,11 +37,12 @@ namespace SockNet.ServerSocket
         /// <summary>
         /// Creates the socket server instance
         /// </summary>
-        public SocketServer() : this( ServiceLocator.Current.Get<ITcpServer>()) { }
+        public SocketServer() : this( ServiceLocator.Current.Get<ITcpServer>(), ServiceLocator.Current.Get<ITcpClient>()) { }
 
-        internal SocketServer(ITcpServer listener)
+        internal SocketServer(ITcpServer listener, ITcpClient client)
         {
             _listener = listener;
+            _tcpClient = client;
         }
 
 
@@ -105,11 +108,14 @@ namespace SockNet.ServerSocket
             // keep checking in a while true loop if there is new data. So what is implemented is a list with data with lock access
             // for multitheading safety due to multiple connections.
 
-            var stream = Listener.GetTcpClientStream(client);
-
-            //create ITcpClient subclass for the server that sets the stream and client, also has a method for building a ReceivedData object with ip and data
+            _tcpClient.SetTcpClient(client);
+            _tcpClient.GetStream();
 
             //switch statement with the setted reader that calls TcpStreamReceiver
+
+
+
+            KeyValuePair<string, byte[]> recData = new KeyValuePair<string, byte[]>(_tcpClient.GetClientIP(), );
 
             //adds the readed data to keypair (ip, data)
 
