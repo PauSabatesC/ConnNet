@@ -29,6 +29,11 @@ namespace SockNet.ServerSocket
             var res = await _tcpListener.AcceptTcpClientAsync().ConfigureAwait(false);
             return res;
         }
+
+        public void Stop()
+        {
+            _tcpListener.Stop();
+        }
     
     }
 }

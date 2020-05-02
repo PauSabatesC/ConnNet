@@ -16,13 +16,14 @@ namespace SockNet.ClientSocket
         Task Connect(string ip, int port);
         void GetStream();
         Task SendData(byte[] data, CancellationToken ctkn);
-        Task<KeyValuePair<int,byte[]>> ReadData(byte[] buffer, CancellationToken ctkn); 
+        //Task<KeyValuePair<int,byte[]>> ReadData(byte[] buffer, CancellationToken ctkn); 
         bool IsValidNetStream();
         bool CanWrite();
         bool CanRead();
         bool DataAvailable();
         void SetTcpClient(TcpClient client);
         string GetClientIP();
+        NetworkStream GetNetworkStream();
 
     }
 }

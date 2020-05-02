@@ -70,11 +70,11 @@ namespace SockNet.ClientSocket
         public bool CanRead() => _networkStream.CanRead;
         public bool DataAvailable() => _networkStream.DataAvailable;
 
-        public async Task<KeyValuePair<int,byte[]>> ReadData(byte[] buffer, CancellationToken ctkn)
+        /*public async Task<KeyValuePair<int,byte[]>> ReadData(byte[] buffer, CancellationToken ctkn)
         {
             int bytesRead = await _networkStream.ReadAsync(buffer, 0, buffer.Length, ctkn);
             return new KeyValuePair<int, byte[]> (bytesRead, buffer);
-        }
+        }*/
 
         public void SetTcpClient(TcpClient client)
         {
@@ -85,5 +85,6 @@ namespace SockNet.ClientSocket
         {
             return ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
         }
+        public NetworkStream GetNetworkStream() => _networkStream;
     }
 }

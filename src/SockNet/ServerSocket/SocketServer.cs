@@ -24,6 +24,7 @@ namespace SockNet.ServerSocket
         private List<KeyValuePair<string, byte[]>> _dataReceivedList;
         private object _listLock = new object();
         private Reader _readerAlgorithm;
+        private bool _listen;
 
         internal CancellationTokenSource Cts { get => _cts; }
         internal CancellationToken Token { get => _token; }
@@ -48,6 +49,7 @@ namespace SockNet.ServerSocket
         {
             _listener = listener;
             _tcpClient = client;
+            _dataReceivedList = new List<KeyValuePair<string, byte[]>>();
         }
 
         public void InitializeSocketServer(string ip, int port)
@@ -64,10 +66,11 @@ namespace SockNet.ServerSocket
         public async Task StartListening()
         {
             _listener.Start();
+            _listen = true;
 
             var client = default(TcpClient);
 
-            while (!_token.IsCancellationRequested)
+            while (!_token.IsCancellationRequested && _listen)
             {
                 try
                 {
@@ -82,7 +85,8 @@ namespace SockNet.ServerSocket
                 {
                     // There's no await - the ReadTcpData handler is going to return immediately so that we can handle the next petition.
                     // Like a Task.Run imho.
-                    var t = ReadTcpData(client);
+                    //var t = ReadTcpData(client);
+                    var t = Task.Run(() => ReadTcpData(client));
                 }
                 else
                 {
@@ -109,10 +113,14 @@ namespace SockNet.ServerSocket
             _tcpClient.SetTcpClient(client);
             _tcpClient.GetStream();
 
-            byte[] data= null;
             switch(_readerAlgorithm){
                 case Reader.ReaderBufferBytes:
-                    data = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(_tcpClient, _readerBuffer);
+                    byte[] data = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(_tcpClient, _readerBuffer, _tcpClient.GetNetworkStream());
+                    KeyValuePair<string, byte[]> recData = new KeyValuePair<string, byte[]>(_tcpClient.GetClientIP(), data);
+                    lock (_listLock)
+                    {
+                        _dataReceivedList.Add(recData);
+                    }
                     break;
                 case Reader.ReaderBytesWithDelimitators:
                     break;
@@ -125,11 +133,9 @@ namespace SockNet.ServerSocket
                     break;
             }
 
-            KeyValuePair<string, byte[]> recData = new KeyValuePair<string, byte[]>(_tcpClient.GetClientIP(), data);
-            //should be in LOCK!!!
-            lock(_listLock){
-                _dataReceivedList.Add(recData);
-            }
+            
+
+
 
 
         }
@@ -148,7 +154,9 @@ namespace SockNet.ServerSocket
 
         public void CloseServer()
         {
-            throw new NotImplementedException();
+            _listen = false;
+            _cts.Cancel();
+            _listener.Stop();
         }
 
         public void SetReaderBytes()
@@ -160,7 +168,8 @@ namespace SockNet.ServerSocket
         public void SetReaderBufferBytes(int bufferSize)
         {
             _readerBuffer = bufferSize;
-            _readerAlgorithm = Reader.ReaderBufferBytes;        }
+            _readerAlgorithm = Reader.ReaderBufferBytes;        
+        }
 
         public void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead)
         {

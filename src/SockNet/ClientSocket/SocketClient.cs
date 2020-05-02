@@ -122,7 +122,7 @@ namespace SockNet.ClientSocket
 
         public async Task<byte[]> ReceiveBytes()
         {
-            _messageReaded = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(TcpClient, BufferSize);
+            _messageReaded = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(TcpClient, BufferSize, TcpClient.GetNetworkStream());
             return _messageReaded;
         }
 

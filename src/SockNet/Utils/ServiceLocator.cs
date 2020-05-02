@@ -42,7 +42,6 @@ namespace SockNet.Utils
             private void LoadBindings()
             {
                 kernel.Bind<ITcpClient>().To<TcpClientAdapter>().InSingletonScope();
-                kernel.Bind<INetworkStream>().To<NetworkStreamAdapter>().InSingletonScope();
                 kernel.Bind<ITcpServer>().To<TcpListenerAdapter>().InSingletonScope();
 
             }

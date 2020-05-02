@@ -11,6 +11,7 @@ namespace SockNet.ServerSocket
     {
         void CreateTcpListener(IPAddress ip, int port);
         void Start();
+        void Stop();
         Task<TcpClient> AcceptTcpClientAsync();
 
     }

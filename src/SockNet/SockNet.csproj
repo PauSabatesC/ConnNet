@@ -5,7 +5,7 @@
     <ApplicationIcon />
     <Win32Resource />
     <Authors>PauSabatesC</Authors>
-    <Version>0.0.1</Version>
+    <Version>0.0.10</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 

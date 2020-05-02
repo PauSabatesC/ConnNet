@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -12,28 +13,28 @@ namespace SockNet.Utils
         private static List<byte> _incomingData;
         internal static List<byte> IncomingData { get => _incomingData; set => _incomingData = value; }
 
-        public static async Task<byte[]> ReceiveBytesUntilDataAvailableAsync(ITcpClient TcpClient, int bufferSize)
+        public static async Task<byte[]> ReceiveBytesUntilDataAvailableAsync(ITcpClient TcpClient, int bufferSize, NetworkStream stream)
         {
             if (TcpClient.CanRead())
             {
                 IncomingData = new List<byte>();
-                byte[] buffer = new byte[512];
-                int bytesRead = 0;
-                var infoRead = new KeyValuePair<int, byte[]>();
+                byte[] buffer = new byte[bufferSize];
+                int bytesRead;
+                int auxBuffer = bufferSize;
 
-                while (TcpClient.DataAvailable())
-                {
-                    using (var readCts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
-                        infoRead = await TcpClient.ReadData(buffer, readCts.Token);
-                    bytesRead = infoRead.Key;
-                    buffer = infoRead.Value;
+                //using (var readCts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+                
+                    while ((auxBuffer == bufferSize) &&(bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) != 0)
+                    {
+                        auxBuffer = bytesRead;
+                        byte[] tempData = new byte[bytesRead];
+                        Array.Copy(buffer, 0, tempData, 0, bytesRead);
+                        IncomingData.AddRange(tempData);
+                    }
+                
 
-                    byte[] tempData = new byte[bytesRead];
-                    Array.Copy(buffer, 0, tempData, 0, bytesRead);
-                    IncomingData.AddRange(tempData);
-
-                }
                 return IncomingData.ToArray();
+
             }
             else throw new Exception("The socket client could not start reading. Check if the server allows it or the socket client has initialized correctly.");
             //TODO: change exception type
