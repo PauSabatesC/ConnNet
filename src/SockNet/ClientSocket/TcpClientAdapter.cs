@@ -86,5 +86,6 @@ namespace SockNet.ClientSocket
             return ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
         }
         public NetworkStream GetNetworkStream() => _networkStream;
+        public TcpClient GetTcpClient() => _tcpClient;
     }
 }

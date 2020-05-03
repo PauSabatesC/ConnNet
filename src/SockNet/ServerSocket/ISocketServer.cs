@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -24,7 +25,7 @@ namespace SockNet.ServerSocket
         /// 
         /// </summary>
         /// <returns></returns>
-        KeyValuePair<string, byte[]> GetData();
+        KeyValuePair<TcpClient, byte[]> GetData();
 
         /// <summary>
         /// 
@@ -53,20 +54,26 @@ namespace SockNet.ServerSocket
         /// </summary>
         /// <param name="bufferSize"></param>
         /// <param name="numberBytesToRead"></param>
-        void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead);
+        //void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="startDelimitator"></param>
         /// <param name="endDelimitator"></param>
-        void SetReaderBytesWithDelimitators(byte startDelimitator, byte endDelimitator);
+        //void SetReaderBytesWithDelimitators(byte startDelimitator, byte endDelimitator);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="endDelimitator"></param>
-        void SetReaderBytesWithEndDelimitator(byte endDelimitator);
+        //void SetReaderBytesWithEndDelimitator(byte endDelimitator);
+
+        ///
+        void ResponseToClient(TcpClient client, string data);
+
+        ///
+        void ResponseToClient(TcpClient client, byte[] data);
 
     }
 }

@@ -21,7 +21,7 @@ namespace SockNet.ServerSocket
         private IPAddress _ip;
         private int _port;
         private int _readerBuffer;
-        private List<KeyValuePair<string, byte[]>> _dataReceivedList;
+        private List<KeyValuePair<TcpClient, byte[]>> _dataReceivedList;
         private object _listLock = new object();
         private Reader _readerAlgorithm;
         private bool _listen;
@@ -49,7 +49,7 @@ namespace SockNet.ServerSocket
         {
             _listener = listener;
             _tcpClient = client;
-            _dataReceivedList = new List<KeyValuePair<string, byte[]>>();
+            _dataReceivedList = new List<KeyValuePair<TcpClient, byte[]>>();
         }
 
         public void InitializeSocketServer(string ip, int port)
@@ -108,19 +108,16 @@ namespace SockNet.ServerSocket
             // instantiate a server class and call a method, not implement or override a method of the observer update. It
             // will be confusing and weird to implement. So if the user has only to make petitions to this api, he will have to
             // keep checking in a while true loop if there is new data. So what is implemented is a list with data with lock access
-            // for multitheading safety due to multiple connections.
+            // for multithreading safety due to multiple connections.
 
+            //TODO: _tcpClient is a class variable so I this it's shared between all different instances 
             _tcpClient.SetTcpClient(client);
             _tcpClient.GetStream();
 
-            switch(_readerAlgorithm){
+            byte[] data = null;
+            switch (_readerAlgorithm){
                 case Reader.ReaderBufferBytes:
-                    byte[] data = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(_tcpClient, _readerBuffer, _tcpClient.GetNetworkStream());
-                    KeyValuePair<string, byte[]> recData = new KeyValuePair<string, byte[]>(_tcpClient.GetClientIP(), data);
-                    lock (_listLock)
-                    {
-                        _dataReceivedList.Add(recData);
-                    }
+                    data = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(_tcpClient, _readerBuffer, _tcpClient.GetNetworkStream());
                     break;
                 case Reader.ReaderBytesWithDelimitators:
                     break;
@@ -133,18 +130,19 @@ namespace SockNet.ServerSocket
                     break;
             }
 
-            
-
-
-
+            KeyValuePair<TcpClient, byte[]> recData = new KeyValuePair<TcpClient, byte[]>(_tcpClient.GetTcpClient(), data);
+            lock (_listLock)
+            {
+                _dataReceivedList.Add(recData);
+            }
 
         }
 
         public bool IsNewData() => (_dataReceivedList.Count > 0 ) ? true : false;
 
-        public KeyValuePair<string,byte[]> GetData()
+        public KeyValuePair<TcpClient, byte[]> GetData()
         {
-            KeyValuePair<string,byte[]> dataToReturn;
+            KeyValuePair<TcpClient, byte[]> dataToReturn;
             lock(_listLock){
                 dataToReturn = _dataReceivedList.FirstOrDefault();
                 _dataReceivedList.RemoveAt(0);
@@ -171,20 +169,29 @@ namespace SockNet.ServerSocket
             _readerAlgorithm = Reader.ReaderBufferBytes;        
         }
 
-        public void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead)
-        {
-            throw new NotImplementedException();
-        }
+        //public void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead){throw new NotImplementedException();}
 
-        public void SetReaderBytesWithDelimitators(byte startDelimitator, byte endDelimitator)
-        {
-            throw new NotImplementedException();
-        }
+        //public void SetReaderBytesWithDelimitators(byte startDelimitator, byte endDelimitator) { throw new NotImplementedException(); }
 
-        public void SetReaderBytesWithEndDelimitator(byte endDelimitator)
+        //public void SetReaderBytesWithEndDelimitator(byte endDelimitator) { throw new NotImplementedException(); }
+
+        public void ResponseToClient(TcpClient client, string data) => ResponseToClient(client, Utils.Conversor.StringToBytes(data));
+
+
+        public void ResponseToClient(TcpClient client, byte[] data)
         {
-            throw new NotImplementedException();
+            if (data != null && data.Length > 0)
+            {
+                
+            }
+            else
+            {
+                throw new ArgumentNullException();
+            }
         }
 
     }
 }
+
+
+//TODO: in general comment all public interfaces

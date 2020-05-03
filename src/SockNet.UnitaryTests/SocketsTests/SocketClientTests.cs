@@ -39,7 +39,7 @@ namespace SockNet.UnitaryTests.SocketClientTests
             var mockTcpClient = new Mock<ITcpClient>();
 
             NewDefaultSocketClient(mockTcpClient.Object);
-            int conn_timeout = 0;
+            //int conn_timeout = 0;
             //_socketc.SetConnectionOptions(0);
             //Assert.AreEqual(conn_timeout, _socketc.ConnectionTimeout);
 
@@ -208,7 +208,7 @@ namespace SockNet.UnitaryTests.SocketClientTests
         /// -[TODO] can receive buffer size
         /// </summary>
         [Test]
-        public async Task ReceiveTest()
+        public void ReceiveTest()
         {
             byte[] testBuffer = Utils.Conversor.StringToBytes("test");
             KeyValuePair<int,byte[]> kayPairReturned = new KeyValuePair<int, byte[]>(4, testBuffer);

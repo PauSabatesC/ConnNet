@@ -41,20 +41,15 @@ namespace SockNet.Utils
         }
 
 
-        public static async Task<byte[]> ReceiveNUmberOfBytes(ITcpClient TcpClient, int bufferSize, int numberBytesToRead)
-        {
-            throw new NotImplementedException();
-        }
+        //public static async Task<byte[]> ReceiveNUmberOfBytes(ITcpClient TcpClient, int bufferSize, int numberBytesToRead) { throw new NotImplementedException(); }
 
-        public static async Task<byte[]> ReceiveBytesWithDelimitators(ITcpClient TcpClient, byte startDelimitator, byte endDelimitator)
-        {
-            throw new NotImplementedException();
-        }
 
-        public static async Task<byte[]> ReceiveBytesWithEndingDelimitator(ITcpClient TcpClient, byte endDelimitator)
-        {
-            throw new NotImplementedException();
-        }
+        //public static async Task<byte[]> ReceiveBytesWithDelimitators(ITcpClient TcpClient, byte startDelimitator, byte endDelimitator) { throw new NotImplementedException(); }
+
+
+        //public static async Task<byte[]> ReceiveBytesWithEndingDelimitator(ITcpClient TcpClient, byte endDelimitator) { throw new NotImplementedException(); }
+        //public static async Task<byte[]> ReceiveBytesWithEndingDelimitator(ITcpClient TcpClient, byte endDelimitator) { throw new NotImplementedException(); }
+
 
 
 
