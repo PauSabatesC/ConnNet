@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace SockNet.ServerSocket
 {
+    /// <inheritdoc/>
     public class SocketServer : ISocketServer
     {
 
@@ -29,7 +30,15 @@ namespace SockNet.ServerSocket
         internal CancellationTokenSource Cts { get => _cts; }
         internal CancellationToken Token { get => _token; }
         internal ITcpServer Listener { get => _listener; }
+
+        /// <summary>
+        /// Ip where the server is listening.
+        /// </summary>
         public IPAddress Ip { get => _ip; }
+
+        /// <summary>
+        /// Port where the server is listening.
+        /// </summary>
         public int Port { get => _port; }
 
         private enum Reader{
@@ -52,6 +61,7 @@ namespace SockNet.ServerSocket
             _dataReceivedList = new List<KeyValuePair<TcpClient, byte[]>>();
         }
 
+        /// <inheritdoc/>
         public void InitializeSocketServer(string ip, int port)
         {
             _ip = Utils.Conversor.StringToIPAddress(ip);
@@ -63,6 +73,7 @@ namespace SockNet.ServerSocket
             _listener.CreateTcpListener(_ip, _port);
         }
 
+        /// <inheritdoc/>
         public async Task StartListening()
         {
             _listener.Start();
@@ -110,6 +121,7 @@ namespace SockNet.ServerSocket
             // keep checking in a while true loop if there is new data. So what is implemented is a list with data with lock access
             // for multithreading safety due to multiple connections.
 
+
             //TODO: _tcpClient is a class variable so I this it's shared between all different instances 
             _tcpClient.SetTcpClient(client);
             _tcpClient.GetStream();
@@ -126,7 +138,7 @@ namespace SockNet.ServerSocket
                 case Reader.ReaderNumberOfBytes:
                     break;
                 default:
-                    //todo: think if should throw exception
+                    //TODO: think if should throw exception
                     break;
             }
 
@@ -138,8 +150,10 @@ namespace SockNet.ServerSocket
 
         }
 
+        /// <inheritdoc/>
         public bool IsNewData() => (_dataReceivedList.Count > 0 ) ? true : false;
 
+        /// <inheritdoc/>
         public KeyValuePair<TcpClient, byte[]> GetData()
         {
             KeyValuePair<TcpClient, byte[]> dataToReturn;
@@ -150,6 +164,7 @@ namespace SockNet.ServerSocket
             return dataToReturn;
         }
 
+        /// <inheritdoc/>
         public void CloseServer()
         {
             _listen = false;
@@ -157,12 +172,14 @@ namespace SockNet.ServerSocket
             _listener.Stop();
         }
 
+        /// <inheritdoc/>
         public void SetReaderBytes()
         {
             _readerBuffer = 1024;
             _readerAlgorithm = Reader.ReaderBufferBytes;
         }
 
+        /// <inheritdoc/>
         public void SetReaderBufferBytes(int bufferSize)
         {
             _readerBuffer = bufferSize;
@@ -175,14 +192,18 @@ namespace SockNet.ServerSocket
 
         //public void SetReaderBytesWithEndDelimitator(byte endDelimitator) { throw new NotImplementedException(); }
 
-        public void ResponseToClient(TcpClient client, string data) => ResponseToClient(client, Utils.Conversor.StringToBytes(data));
+        /// <inheritdoc/>
+        public async Task ResponseToClient(TcpClient client, string data) => await ResponseToClient(client, Utils.Conversor.StringToBytes(data));
 
-
-        public void ResponseToClient(TcpClient client, byte[] data)
+        /// <inheritdoc/>
+        public async Task ResponseToClient(TcpClient client, byte[] data)
         {
             if (data != null && data.Length > 0)
             {
-                
+                ITcpClient clientConnected = _tcpClient;
+                clientConnected.SetTcpClient(client);
+                clientConnected.GetStream();
+                await Utils.TcpStreamSender.SendData(data, clientConnected, 10000);
             }
             else
             {
@@ -192,6 +213,3 @@ namespace SockNet.ServerSocket
 
     }
 }
-
-
-//TODO: in general comment all public interfaces

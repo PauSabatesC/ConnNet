@@ -5,9 +5,18 @@
     <ApplicationIcon />
     <Win32Resource />
     <Authors>PauSabatesC</Authors>
-    <Version>0.0.10</Version>
+    <Version>0.1.0</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Projects\SockNet\src\SockNet\SockNet.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Ninject" Version="3.3.4" />

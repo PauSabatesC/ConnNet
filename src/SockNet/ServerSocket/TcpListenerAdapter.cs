@@ -8,7 +8,7 @@ using SockNet.ClientSocket;
 
 namespace SockNet.ServerSocket
 {
-    class TcpListenerAdapter : ITcpServer
+    internal class TcpListenerAdapter : ITcpServer
     {
         private TcpListener _tcpListener;
         //private TcpClient _tcpClient;

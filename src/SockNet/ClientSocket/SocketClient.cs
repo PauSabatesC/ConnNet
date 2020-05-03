@@ -13,9 +13,10 @@ using SockNet.Utils;
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
 namespace SockNet.ClientSocket
 {
-
+    ///<inheritdoc/>
     public sealed class SocketClient : ISocketClient
     {
+        #region private local variables declaration
         private string _socketIP;
         private int _socketPort;
         private int _connectionTimeout;
@@ -25,17 +26,50 @@ namespace SockNet.ClientSocket
         private byte[] _messageReaded;
         private int _bufferSize;
 
+        #endregion
+
+        /// <summary>
+        /// IP of the server specified.
+        /// </summary>
         public string SocketIP { get => _socketIP; }
+
+        /// <summary>
+        /// Port of the server specified.
+        /// </summary>
         public int SocketPort { get => _socketPort; }
+
+        /// <summary>
+        /// Timeout for the initial socket connection.
+        /// </summary>
         public int ConnectionTimeout { get => _connectionTimeout; }
+
+        /// <summary>
+        /// Timeout for the sending messages.
+        /// </summary>
         public int SendTimeout { get => _sendTimeout; }
+
+        /// <summary>
+        /// Timeout for when receiving data.
+        /// </summary>
         public int ReceiveTimeout { get => _receiveTimeout; }
+
+        /// <summary>
+        /// Instance with information of the TcpClient and NetworkStream.
+        /// </summary>
         internal ITcpClient TcpClient { get => _TcpClient; }
+
+        /// <summary>
+        /// Message readed from the server.
+        /// </summary>
         public byte[] MessageReaded { get => _messageReaded; }
+
+        /// <summary>
+        /// Buffer size for tcp sending or receiving data.
+        /// </summary>
         public int BufferSize { get => _bufferSize; }
 
         /// <summary>
-        /// Constructor that sets connecion ip and port dor socket server connection.
+        /// Constructor that sets connection IP and port for socket server connection.
         /// </summary>
         /// <param name="socketIP">IP represented as string.</param>
         /// <param name="socketPort">Port number of the server listening.</param>
@@ -59,6 +93,7 @@ namespace SockNet.ClientSocket
             
         }
 
+        /// <inheritdoc/>
         public async Task<bool> Connect()
         {
             bool success = false;
@@ -75,7 +110,7 @@ namespace SockNet.ClientSocket
             return success;
         }
 
-
+        /// <inheritdoc/>
         public void Disconnect()
         {
             if (TcpClient.Connected())
@@ -85,6 +120,7 @@ namespace SockNet.ClientSocket
             }
         }
 
+        /// <inheritdoc />
         public async Task Send(string data)
         {
             if (string.IsNullOrWhiteSpace(data)) throw new ArgumentException(data, "The message to send can not be empty.");
@@ -92,59 +128,52 @@ namespace SockNet.ClientSocket
             await Send(Utils.Conversor.StringToBytes(data), SendTimeout);
         }
 
+        /// <inheritdoc />
         public async Task Send(byte[] data)
         {
             await Send(data, SendTimeout);
         }
 
+        /// <inheritdoc />
         public async Task Send(byte[] data, int sendTimeout)
         {
             if (data is null) throw new ArgumentNullException();
             if (sendTimeout <= 0) throw new ArgumentException(sendTimeout.ToString(), "Timeout has to be greater than 0.");
-            
-            using (var writeCts = new CancellationTokenSource(TimeSpan.FromMilliseconds(sendTimeout)))
-            {
-                try
-                {
-                    if(TcpClient.Connected() &&
-                       TcpClient.IsValidNetStream() && 
-                       TcpClient.CanWrite()
-                       ) await TcpClient.SendData(data, writeCts.Token);
-                    else throw new Exception("Network stream to send data is not initialized or it's busy. You should create a tcp connection first with SocketClient constructor and check that no errors appear.");
-                    //TODO: change exception type
-                }
-                catch(OperationCanceledException)
-                {
-                    throw new OperationCanceledException("Timeout of " + sendTimeout + " trying to send the data.");
-                }
-            }
+
+            await Utils.TcpStreamSender.SendData(data, _TcpClient, _sendTimeout);
         }
 
+        /// <inheritdoc />
         public async Task<byte[]> ReceiveBytes()
         {
             _messageReaded = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(TcpClient, BufferSize, TcpClient.GetNetworkStream());
             return _messageReaded;
         }
 
-        public Task<byte[]> ReceiveBytes(int bufferSize)
+        /// <inheritdoc />
+        public async Task<byte[]> ReceiveBytes(int bufferSize)
         {
-            throw new NotImplementedException();
+            _messageReaded = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(TcpClient, bufferSize, TcpClient.GetNetworkStream());
+            return _messageReaded;
         }
 
-        public Task<byte[]> ReceiveNumberOfBytes(int bufferSize, int numberBytesToRead)
+        /// <inheritdoc />
+        /*public Task<byte[]> ReceiveNumberOfBytes(int bufferSize, int numberBytesToRead)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
-        public Task<byte[]> ReceiveBytesWithDelimitators(byte startDelimitator, byte endDelimitator)
+        /// <inheritdoc />
+        /*public Task<byte[]> ReceiveBytesWithDelimitators(byte[] startDelimitator, byte[] endDelimitator)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
-        public Task<byte[]> ReceiveBytesWithEndDelimitator(byte endDelimitator)
+        /// <inheritdoc />
+        /*public Task<byte[]> ReceiveBytesWithEndDelimitator(byte[] endDelimitator)
         {
             throw new NotImplementedException();
-        }
+        }*/
 
         /// <summary>
         /// Converts the message received in bytes to ASCII string.

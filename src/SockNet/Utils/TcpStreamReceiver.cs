@@ -22,6 +22,7 @@ namespace SockNet.Utils
                 int bytesRead;
                 int auxBuffer = bufferSize;
 
+                //TODO: add the cancellation token
                 //using (var readCts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
                 
                     while ((auxBuffer == bufferSize) &&(bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) != 0)
