@@ -2,9 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using ConnNet.Sockets;
+using SockNet.ClientSocket;
+using SockNet.ServerSocket;
 
-namespace ConnNet.Utils
+namespace SockNet.Utils
 {
     internal class ServiceLocator
     {
@@ -41,7 +42,7 @@ namespace ConnNet.Utils
             private void LoadBindings()
             {
                 kernel.Bind<ITcpClient>().To<TcpClientAdapter>().InSingletonScope();
-                kernel.Bind<INetworkStream>().To<NetworkStreamAdapter>().InSingletonScope();
+                kernel.Bind<ITcpServer>().To<TcpListenerAdapter>().InSingletonScope();
 
             }
         }

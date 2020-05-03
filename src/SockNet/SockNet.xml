@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>SockNet</name>
+    </assembly>
+    <members>
+        <member name="T:SockNet.ClientSocket.ISocketClient">
+            <summary>
+            API for creating the socket in the client side.
+            </summary>
+        </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.Send(System.String)">
+            <summary>
+            Sends a string of data specified to the socket server.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.Send(System.Byte[])">
+            <summary>
+            Sends as an array of bytes specified to the socket server.
+            </summary>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.Connect">
+            <summary>
+            Creates a TCP client connection to the server.
+            </summary>
+            <returns>True if connection is created correctly.</returns>
+        </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.Disconnect">
+            <summary>
+            Closes the TCP socket client connection correctly.
+            </summary>
+        </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.ReceiveBytes">
+            <summary>
+            Receives an unknown number of bytes. Reads data until it stops receiving.
+            </summary>
+            <returns>All the bytes received.</returns>
+        </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.ReceiveBytes(System.Int32)">
+            <summary>
+            Receives an unknown number of bytes. Reads data until it stops receiving.
+            </summary>
+            <param name="bufferSize">Size of the buffer to keep reading tcp bytes. Default is 512 bytes.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SockNet.ClientSocket.SocketClient">
+            <inheritdoc/>
+        </member>
+        <member name="P:SockNet.ClientSocket.SocketClient.SocketIP">
+            <summary>
+            IP of the server specified.
+            </summary>
+        </member>
+        <member name="P:SockNet.ClientSocket.SocketClient.SocketPort">
+            <summary>
+            Port of the server specified.
+            </summary>
+        </member>
+        <member name="P:SockNet.ClientSocket.SocketClient.ConnectionTimeout">
+            <summary>
+            Timeout for the initial socket connection.
+            </summary>
+        </member>
+        <member name="P:SockNet.ClientSocket.SocketClient.SendTimeout">
+            <summary>
+            Timeout for the sending messages.
+            </summary>
+        </member>
+        <member name="P:SockNet.ClientSocket.SocketClient.ReceiveTimeout">
+            <summary>
+            Timeout for when receiving data.
+            </summary>
+        </member>
+        <member name="P:SockNet.ClientSocket.SocketClient.TcpClient">
+            <summary>
+            Instance with information of the TcpClient and NetworkStream.
+            </summary>
+        </member>
+        <member name="P:SockNet.ClientSocket.SocketClient.MessageReaded">
+            <summary>
+            Message readed from the server.
+            </summary>
+        </member>
+        <member name="P:SockNet.ClientSocket.SocketClient.BufferSize">
+            <summary>
+            Buffer size for tcp sending or receiving data.
+            </summary>
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.#ctor(System.String,System.Int32)">
+            <summary>
+            Constructor that sets connection IP and port for socket server connection.
+            </summary>
+            <param name="socketIP">IP represented as string.</param>
+            <param name="socketPort">Port number of the server listening.</param>
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.Connect">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.Disconnect">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.Send(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.Send(System.Byte[])">
+            <inheritdoc />
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.Send(System.Byte[],System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.ReceiveBytes">
+            <inheritdoc />
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.ReceiveBytes(System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.ToString">
+            <summary>
+            Converts the message received in bytes to ASCII string.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:SockNet.ServerSocket.ISocketServer">
+            <summary>
+            API for creating a listener socket in the server side.
+            </summary>
+        </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.InitializeSocketServer(System.String,System.Int32)">
+            <summary>
+            Sets the IP and port of the socket server.
+            </summary>
+            <param name="ip"></param>
+            <param name="port"></param>
+        </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.StartListening">
+            <summary>
+            Starts accepting client connections asynchronously.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.GetData">
+            <summary>
+            Data obtained form a client connection.
+            </summary>
+            <returns>A keyValue with the client tcp information and the array of data received.</returns>
+        </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.IsNewData">
+            <summary>
+            Checks if a new message has been received from some socket client.
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.CloseServer">
+            <summary>
+            Dispose the current socket server lintener.
+            </summary>
+        </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.SetReaderBytes">
+            <summary>
+            Sets the server to receive an unknown number of bytes. Reads data until it stops receiving.
+            </summary>
+        </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.SetReaderBufferBytes(System.Int32)">
+            <summary>
+            Sets the server to receive an unknown number of bytes. Reads data until it stops receiving.
+            </summary>
+            <param name="bufferSize">Size of the buffer to keep reading tcp bytes. Default is 512 bytes.</param>
+        </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.ResponseToClient(System.Net.Sockets.TcpClient,System.String)">
+            <summary>
+            Sends data to the connected socket client.
+            </summary>
+            <param name="client">Client connected to the server that receives the data.</param>
+            <param name="data">Data to send.</param>
+            <returns></returns>
+        </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.ResponseToClient(System.Net.Sockets.TcpClient,System.Byte[])">
+            <summary>
+            Sends data to the connected socket client.
+            </summary>
+            <param name="client">Client connected to the server that receives the data.</param>
+            <param name="data">Data to send.</param>
+            <returns></returns>
+        </member>
+        <member name="T:SockNet.ServerSocket.SocketServer">
+            <inheritdoc/>
+        </member>
+        <member name="P:SockNet.ServerSocket.SocketServer.Ip">
+            <summary>
+            Ip where the server is listening.
+            </summary>
+        </member>
+        <member name="P:SockNet.ServerSocket.SocketServer.Port">
+            <summary>
+            Port where the server is listening.
+            </summary>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.#ctor">
+            <summary>
+            Creates the socket server instance
+            </summary>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.InitializeSocketServer(System.String,System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.StartListening">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.IsNewData">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.GetData">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.CloseServer">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.SetReaderBytes">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.SetReaderBufferBytes(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.ResponseToClient(System.Net.Sockets.TcpClient,System.String)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.ResponseToClient(System.Net.Sockets.TcpClient,System.Byte[])">
+            <inheritdoc/>
+        </member>
+    </members>
+</doc>

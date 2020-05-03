@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ConnNet.Sockets
+namespace SockNet.ClientSocket
 {
     internal interface ITcpClient
     {
@@ -15,10 +16,14 @@ namespace ConnNet.Sockets
         Task Connect(string ip, int port);
         void GetStream();
         Task SendData(byte[] data, CancellationToken ctkn);
-        Task<KeyValuePair<int,byte[]>> ReadData(byte[] buffer, CancellationToken ctkn); 
         bool IsValidNetStream();
         bool CanWrite();
         bool CanRead();
         bool DataAvailable();
+        void SetTcpClient(TcpClient client);
+        string GetClientIP();
+        NetworkStream GetNetworkStream();
+        TcpClient GetTcpClient();
+
     }
 }

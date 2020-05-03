@@ -1,14 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ConnNet.Sockets
+namespace SockNet.ClientSocket
 {
     internal class TcpClientAdapter : ITcpClient
     {
-        private readonly TcpClient _tcpClient;
+        private TcpClient _tcpClient;
         private NetworkStream _networkStream = null;
 
         public TcpClientAdapter()
@@ -69,10 +70,22 @@ namespace ConnNet.Sockets
         public bool CanRead() => _networkStream.CanRead;
         public bool DataAvailable() => _networkStream.DataAvailable;
 
-        public async Task<KeyValuePair<int,byte[]>> ReadData(byte[] buffer, CancellationToken ctkn)
+        /*public async Task<KeyValuePair<int,byte[]>> ReadData(byte[] buffer, CancellationToken ctkn)
         {
             int bytesRead = await _networkStream.ReadAsync(buffer, 0, buffer.Length, ctkn);
             return new KeyValuePair<int, byte[]> (bytesRead, buffer);
+        }*/
+
+        public void SetTcpClient(TcpClient client)
+        {
+            _tcpClient = client;
         }
+
+        public string GetClientIP()
+        {
+            return ((IPEndPoint)_tcpClient.Client.RemoteEndPoint).Address.ToString();
+        }
+        public NetworkStream GetNetworkStream() => _networkStream;
+        public TcpClient GetTcpClient() => _tcpClient;
     }
 }
