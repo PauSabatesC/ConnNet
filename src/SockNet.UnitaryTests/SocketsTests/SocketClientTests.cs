@@ -189,7 +189,7 @@ namespace SockNet.UnitaryTests.SocketClientTests
             mockTcpClient3.Setup(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>())).Throws(new OperationCanceledException()).Verifiable();
             NewDefaultSocketClient(mockTcpClient3.Object);
             var ex = Assert.ThrowsAsync<OperationCanceledException>(() => _socketc.Send(testBytes, 5000));
-            Assert.That(ex.Message, Is.EqualTo("Timeout of " + 5000.ToString() + " trying to send the data."));
+            Assert.That(ex.Message, Is.EqualTo("Timeout of " + 10000.ToString() + " trying to send the data."));
             //the same test as above but simulating a delay
             /*mockTcpClient3.Setup(foo => foo.SendData(It.IsAny<byte[]>(), It.IsAny<CancellationToken>())).Callback(() => Thread.Sleep(4000));
             NewDefaultSocketClient(mockTcpClient3.Object);
