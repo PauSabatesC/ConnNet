@@ -4,11 +4,8 @@
 
 [![CodeFactor](https://www.codefactor.io/repository/github/pausabatesc/socknet/badge)](https://www.codefactor.io/repository/github/pausabatesc/socknet)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/97b9677cd0354202b7d0bb4fd9e364fb)](https://www.codacy.com/manual/PauSabatesC/SockNet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PauSabatesC/SockNet&amp;utm_campaign=Badge_Grade)
-
-| Branch                 | Build status |
-|------------------------|--------------|
-| Master                 | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k) |
-| Develop                | [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/develop?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k/branch/develop) |
+[![Nuget](https://img.shields.io/nuget/v/SockNet)](https://www.nuget.org/packages/SockNet/)
+[![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k)
 
 <h1 align="center">
   The easiest and fastest way to work with sockets in C#
@@ -17,10 +14,48 @@
 ### This library is a wrapper of common tcp and network streams libaries in order to act as a more high-level and developer friendly api to deal with socket communications.
 ---
 
-## Download 
-<img alt="Nuget" src="https://img.shields.io/nuget/v/SockNet?style=for-the-badge">
+## Download and install
 
-If you want to get the latest development build click <a href="https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k/build/artifacts"> here </a>
+```powershell
+Install-Package SockNet
+```
+[![Nuget](https://img.shields.io/nuget/v/SockNet)](https://www.nuget.org/packages/SockNet/)
+
+**Supported Runtimes**
+
+<table>
+<tr>
+<th></th>
+
+<th><img src='https://github.com/Turbo87/Font-Awesome/raw/platform-icons/svg/windows.png'/> Windows</th>
+	
+<th><img src='https://github.com/Turbo87/Font-Awesome/raw/platform-icons/svg/linux.png'> Linux</th>
+
+<th><img src='https://github.com/Turbo87/Font-Awesome/raw/platform-icons/svg/apple.png'/> Mac OS X</th>
+
+</tr>
+<tr>
+ <td><strong>.NET Framework</strong</td>
+ <td align='center'><strong>v4.6+</strong></td>
+ <td align='center'>n/a</td>
+ <td align='center'>n/a</td>
+</tr>
+<tr>
+ <td><strong>.NET Standard</strong></td>
+ <td colspan='3' align='center'>.NET Standard 2.0+</td>
+</tr>
+<tr>
+ <td><strong>.NET Core</strong></td>
+ <td colspan='3' align='center'>v2.0+</td>
+</tr>
+<tr>
+	<td colspan='4'></td>
+</tr>
+</table>
+
+
+
+If you want to get the latest development build: [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7/branch/develop?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k/branch/develop)
 
 ## Features
 - **Production ready** library. Forget to waste time testing buffers and tcp framing communication, we cover you.
