@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ConnNet.Sockets
+namespace SockNet.Utils
 {
-    class Class1
+    internal interface IServiceLocator
     {
+        T Get<T>();
+
     }
 }

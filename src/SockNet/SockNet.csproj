@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ApplicationIcon />
+    <Win32Resource />
+    <Authors>PauSabatesC</Authors>
+    <Version>0.1.0</Version>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Description>The easiest and fastest way to work with sockets in C#</Description>
+    <PackageProjectUrl>https://github.com/PauSabatesC/SockNet</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/PauSabatesC/SockNet</RepositoryUrl>
+    <PackageTags>socket, c#, easy, tcp, server</PackageTags>
+    <PackageReleaseNotes>0.1.0 (Alpha)</PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>C:\Projects\SockNet\src\SockNet\SockNet.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\.editorconfig" Link=".editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Ninject" Version="3.3.4" />
+  </ItemGroup>
+
+</Project>

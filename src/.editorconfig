@@ -1,0 +1,4 @@
+﻿[*.cs]
+
+# CS1587: El comentario XML no está situado en un elemento válido del idioma
+dotnet_diagnostic.CS1587.severity = silent
