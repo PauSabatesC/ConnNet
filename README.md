@@ -60,10 +60,14 @@ If you want to get the latest development build: [![Build status](https://ci.app
 ---
 
 ## Features
-- **Production ready** library. Forget to waste time testing buffers and tcp framing communication, we cover you.
-- **Asynchronous** connections and write/read petitions.
-- **Developer friendly API** with many method overloads to satisfy all user use cases.
-- **Client and/or Server** sockets creation. Use it just for your .Net client or for both client and server!
+🚀 **Production ready** library. Forget to waste time testing buffers and tcp framing communication, we cover you.
+
+🧵 **Asynchronous** connections and write/read petitions.
+
+📚 **Developer friendly API** with many method overloads to satisfy all user use cases.
+
+🎭 **Client and/or Server** sockets creation. Use it just for your .Net client or for both client and server!
+
 
 ## Why?
 Working with sockets with C# can be really overwhelming due to its different libraries and many methods to choose from.
