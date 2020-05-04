@@ -16,18 +16,24 @@
 
 ### This library is a wrapper of common tcp and network streams libaries in order to act as a more high-level and developer friendly api to deal with socket communications.
 ---
+
+## Download 
+<img alt="Nuget" src="https://img.shields.io/nuget/v/SockNet?style=for-the-badge">
+
+If you want to get the latest development build click <a href="https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k/build/artifacts"> here </a>
+
 ## Features
 - **Production ready** library. Forget to waste time testing buffers and tcp framing communication, we cover you.
 - **Asynchronous** connections and write/read petitions.
 - **Developer friendly API** with many method overloads to satisfy all user use cases.
-- **Client and Server** sockets creation. Use it just for your .Net Client or for both client and server!
+- **Client and Server** sockets creation. Use it just for your .Net client or for both client and server!
 
 ---
 ## Why?
 TODO
 
 ---
-## User Guide with examples
+## Usage
 ```cs
   //TODO
 ```
