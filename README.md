@@ -15,7 +15,7 @@
 ### This library is a wrapper of common tcp and network streams libaries in order to act as a more high-level and developer friendly api to deal with socket communications.
 
 
-## Download and install
+## Installation
 [![Nuget](https://img.shields.io/nuget/v/SockNet)](https://www.nuget.org/packages/SockNet/)
 
 ```powershell
@@ -81,7 +81,7 @@ To create a client socket connection you only need these methods:
 
 Initializes the client indicating the server address:
 ```cs
-  new SocketClient("127.0.0.1", 80);
+  var client = new SocketClient("127.0.0.1", 80);
 ```
 Sends and receive data asynchronously once its connected:
 ```cs
