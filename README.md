@@ -19,7 +19,7 @@
 [![Nuget](https://img.shields.io/nuget/v/SockNet)](https://www.nuget.org/packages/SockNet/)
 
 ```powershell
-dotnet add package SockNet --version 0.1.0
+dotnet add package SockNet
 ```
 
 **Supported Runtimes**
