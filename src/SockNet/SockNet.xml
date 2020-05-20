@@ -46,6 +46,14 @@
             <param name="bufferSize">Size of the buffer to keep reading tcp bytes. Default is 512 bytes.</param>
             <returns></returns>
         </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.ReceiveBytesWithDelimitators(System.Byte[],System.Byte[])">
+            <summary>
+            Receives the tcp data telegram. Reads from the start delimitator until the end delimitator is reached.
+            </summary>
+            <param name="startDelimitator">The fixed sequence of bytes that indicates the start of the telegram.</param>
+            <param name="endDelimitator">The fixed sequence of bytes that indicates the end of the telegram.</param>
+            <returns></returns>
+        </member>
         <member name="T:SockNet.ClientSocket.SocketClient">
             <inheritdoc/>
         </member>
@@ -117,6 +125,9 @@
         <member name="M:SockNet.ClientSocket.SocketClient.ReceiveBytes(System.Int32)">
             <inheritdoc />
         </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.ReceiveBytesWithDelimitators(System.Byte[],System.Byte[])">
+            <inheritdoc />
+        </member>
         <member name="M:SockNet.ClientSocket.SocketClient.ToString">
             <summary>
             Converts the message received in bytes to ASCII string.
@@ -185,6 +196,13 @@
             <param name="data">Data to send.</param>
             <returns></returns>
         </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.SetReaderBytesWithDelimitators(System.Byte[],System.Byte[])">
+            <summary>
+            Sets the receiver to get the tcp data telegram. Reads from the start delimitator until the end delimitator is reached.
+            </summary>
+            <param name="startDelimitator">The fixed sequence of bytes that indicates the start of the telegram.</param>
+            <param name="endDelimitator">The fixed sequence of bytes that indicates the end of the telegram.</param>
+        </member>
         <member name="T:SockNet.ServerSocket.SocketServer">
             <inheritdoc/>
         </member>
@@ -222,6 +240,9 @@
             <inheritdoc/>
         </member>
         <member name="M:SockNet.ServerSocket.SocketServer.SetReaderBufferBytes(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.SetReaderBytesWithDelimitators(System.Byte[],System.Byte[])">
             <inheritdoc/>
         </member>
         <member name="M:SockNet.ServerSocket.SocketServer.ResponseToClient(System.Net.Sockets.TcpClient,System.String)">

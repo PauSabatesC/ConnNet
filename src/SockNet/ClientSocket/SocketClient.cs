@@ -164,10 +164,11 @@ namespace SockNet.ClientSocket
         }*/
 
         /// <inheritdoc />
-        /*public Task<byte[]> ReceiveBytesWithDelimitators(byte[] startDelimitator, byte[] endDelimitator)
+        public async Task<byte[]> ReceiveBytesWithDelimitators(byte[] startDelimitator, byte[] endDelimitator)
         {
-            throw new NotImplementedException();
-        }*/
+            _messageReaded = await Utils.TcpStreamReceiver.ReceiveBytesWithDelimitators(TcpClient, startDelimitator, endDelimitator, TcpClient.GetNetworkStream());
+            return _messageReaded;
+        }
 
         /// <inheritdoc />
         /*public Task<byte[]> ReceiveBytesWithEndDelimitator(byte[] endDelimitator)
