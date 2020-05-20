@@ -22,6 +22,8 @@ namespace SockNet.ServerSocket
         private IPAddress _ip;
         private int _port;
         private int _readerBuffer;
+        private byte[] _readerStartDelimitator;
+        private byte[] _readerEndDelimitator;
         private List<KeyValuePair<TcpClient, byte[]>> _dataReceivedList;
         private object _listLock = new object();
         private Reader _readerAlgorithm;
@@ -132,6 +134,7 @@ namespace SockNet.ServerSocket
                     data = await Utils.TcpStreamReceiver.ReceiveBytesUntilDataAvailableAsync(_tcpClient, _readerBuffer, _tcpClient.GetNetworkStream());
                     break;
                 case Reader.ReaderBytesWithDelimitators:
+                    data = await Utils.TcpStreamReceiver.ReceiveBytesWithDelimitators(_tcpClient, _readerStartDelimitator, _readerEndDelimitator, _tcpClient.GetNetworkStream());
                     break;
                 case Reader.ReaderBytesWithEndDelimitator:
                     break;
@@ -188,7 +191,13 @@ namespace SockNet.ServerSocket
 
         //public void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead){throw new NotImplementedException();}
 
-        //public void SetReaderBytesWithDelimitators(byte startDelimitator, byte endDelimitator) { throw new NotImplementedException(); }
+        /// <inheritdoc/>
+        public void SetReaderBytesWithDelimitators(byte[] startDelimitator, byte[] endDelimitator) 
+        {
+            _readerStartDelimitator = startDelimitator;
+            _readerEndDelimitator = endDelimitator;
+            _readerAlgorithm = Reader.ReaderBytesWithDelimitators;
+        }
 
         //public void SetReaderBytesWithEndDelimitator(byte endDelimitator) { throw new NotImplementedException(); }
 

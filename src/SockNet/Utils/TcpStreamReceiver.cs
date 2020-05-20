@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Net.Sockets;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using SockNet.ClientSocket;
@@ -45,7 +46,56 @@ namespace SockNet.Utils
         //public static async Task<byte[]> ReceiveNUmberOfBytes(ITcpClient TcpClient, int bufferSize, int numberBytesToRead) { throw new NotImplementedException(); }
 
 
-        //public static async Task<byte[]> ReceiveBytesWithDelimitators(ITcpClient TcpClient, byte startDelimitator, byte endDelimitator) { throw new NotImplementedException(); }
+        public static async Task<byte[]> ReceiveBytesWithDelimitators(ITcpClient TcpClient, byte[] startDelimitator, byte[] endDelimitator, NetworkStream stream) 
+        {
+            if (TcpClient.CanRead())
+            {
+                byte[] buffer = new byte[512];
+                int bytesRead;
+                bool firstChar = false;
+                bool lastChar = false;
+                string dataAcumulated = string.Empty;
+
+                var strStart = Encoding.ASCII.GetString(startDelimitator);
+                var strEnd = Encoding.ASCII.GetString(endDelimitator);
+
+                //TODO: add the cancellation token
+                //using (var readCts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+
+                while ((!firstChar || !lastChar) && (bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) != 0)
+                {
+                    var data = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+
+                    if (!firstChar && data.StartsWith(strStart))
+                    {
+                        firstChar = true;
+                    }
+                    if(firstChar)
+                    {
+                        //dataAcumulated += data;
+                        if (data.Contains(strEnd))
+                        {
+                            var cleanData = data.Split(new string[] { strEnd }, StringSplitOptions.None)[0];
+                            dataAcumulated = cleanData;
+                            lastChar = true;
+                        }
+                        else
+                        {
+                            dataAcumulated += data;
+                        }
+
+                        /*if (data.EndsWith(strEnd))
+                        {
+                            lastChar = true;
+                        }*/
+                    }
+                }
+
+                return Utils.Conversor.StringToBytes(dataAcumulated);
+            }
+            else throw new Exception("The socket client could not start reading. Check if the server allows it or the socket client has initialized correctly.");
+            //TODO: change exception type
+        }
 
 
         //public static async Task<byte[]> ReceiveBytesWithEndingDelimitator(ITcpClient TcpClient, byte endDelimitator) { throw new NotImplementedException(); }

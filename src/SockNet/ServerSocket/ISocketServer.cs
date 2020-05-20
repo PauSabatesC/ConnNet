@@ -80,7 +80,7 @@ namespace SockNet.ServerSocket
         /// </summary>
         /// <param name="startDelimitator">The fixed sequence of bytes that indicates the start of the telegram.</param>
         /// <param name="endDelimitator">The fixed sequence of bytes that indicates the end of the telegram.</param>
-        //void SetReaderBytesWithDelimitators(byte startDelimitator, byte endDelimitator);
+        void SetReaderBytesWithDelimitators(byte[] startDelimitator, byte[] endDelimitator);
 
         /// <summary>
         /// Sets the receiver to get the tcp data telegram. Reads since something is received until the end delimitator is reached.

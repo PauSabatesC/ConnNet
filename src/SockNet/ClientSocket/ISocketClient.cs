@@ -61,7 +61,7 @@ namespace SockNet.ClientSocket
         /// <param name="startDelimitator">The fixed sequence of bytes that indicates the start of the telegram.</param>
         /// <param name="endDelimitator">The fixed sequence of bytes that indicates the end of the telegram.</param>
         /// <returns></returns>
-        //Task<byte[]> ReceiveBytesWithDelimitators(byte[] startDelimitator, byte[] endDelimitator);
+        Task<byte[]> ReceiveBytesWithDelimitators(byte[] startDelimitator, byte[] endDelimitator);
         //TODO: change the method with a timeout in the parameters in case no end delimitator is received
 
         /// <summary>
