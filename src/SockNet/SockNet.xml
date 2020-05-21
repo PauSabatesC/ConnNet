@@ -46,6 +46,14 @@
             <param name="bufferSize">Size of the buffer to keep reading tcp bytes. Default is 512 bytes.</param>
             <returns></returns>
         </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.ReceiveNumberOfBytes(System.Int32,System.Int32)">
+            <summary>
+            Receives the specified number of bytes.
+            </summary>
+            <param name="bufferSize">Size of the buffer to keep reading tcp bytes. Default is 512 bytes.</param>
+            <param name="numberBytesToRead">Total amount of bytes you expect to receive as a final message.</param>
+            <returns>The total amount of bytes specified received from the server.</returns>
+        </member>
         <member name="M:SockNet.ClientSocket.ISocketClient.ReceiveBytesWithDelimitators(System.Byte[],System.Byte[])">
             <summary>
             Receives the tcp data telegram. Reads from the start delimitator until the end delimitator is reached.
@@ -132,6 +140,9 @@
         <member name="M:SockNet.ClientSocket.SocketClient.ReceiveBytes(System.Int32)">
             <inheritdoc />
         </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.ReceiveNumberOfBytes(System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
         <member name="M:SockNet.ClientSocket.SocketClient.ReceiveBytesWithDelimitators(System.Byte[],System.Byte[])">
             <inheritdoc />
         </member>
@@ -206,6 +217,13 @@
             <param name="data">Data to send.</param>
             <returns></returns>
         </member>
+        <member name="M:SockNet.ServerSocket.ISocketServer.SetReaderNumberOfBytes(System.Int32,System.Int32)">
+            <summary>
+            Sets the server to receive the specified number of bytes.
+            </summary>
+            <param name="bufferSize">Size of the buffer to keep reading tcp bytes. Default is 512 bytes.</param>
+            <param name="numberBytesToRead">Total amount of bytes you expect to receive as a final message.</param>
+        </member>
         <member name="M:SockNet.ServerSocket.ISocketServer.SetReaderBytesWithDelimitators(System.Byte[],System.Byte[])">
             <summary>
             Sets the receiver to get the tcp data telegram. Reads from the start delimitator until the end delimitator is reached.
@@ -256,6 +274,9 @@
             <inheritdoc/>
         </member>
         <member name="M:SockNet.ServerSocket.SocketServer.SetReaderBufferBytes(System.Int32)">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ServerSocket.SocketServer.SetReaderNumberOfBytes(System.Int32,System.Int32)">
             <inheritdoc/>
         </member>
         <member name="M:SockNet.ServerSocket.SocketServer.SetReaderBytesWithDelimitators(System.Byte[],System.Byte[])">

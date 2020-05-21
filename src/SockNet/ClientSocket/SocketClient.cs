@@ -158,10 +158,11 @@ namespace SockNet.ClientSocket
         }
 
         /// <inheritdoc />
-        /*public Task<byte[]> ReceiveNumberOfBytes(int bufferSize, int numberBytesToRead)
+        public async Task<byte[]> ReceiveNumberOfBytes(int bufferSize, int numberBytesToRead)
         {
-            throw new NotImplementedException();
-        }*/
+            _messageReaded = await Utils.TcpStreamReceiver.ReceiveNumberOfBytes(TcpClient, bufferSize, numberBytesToRead, TcpClient.GetNetworkStream());
+            return _messageReaded;
+        }
 
         /// <inheritdoc />
         public async Task<byte[]> ReceiveBytesWithDelimitators(byte[] startDelimitator, byte[] endDelimitator)
