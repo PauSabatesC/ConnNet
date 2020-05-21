@@ -51,15 +51,17 @@ namespace SockNet.Utils
                 byte[] buffer = new byte[bufferSize];
                 int bytesRead;
                 int auxBuffer=0;
+                bool allBytesReceived = false;
 
                 //TODO: add the cancellation token
                 //using (var readCts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
 
-                while ((auxBuffer != numberBytesToRead) && (bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) != 0)
+                while (!allBytesReceived && (bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) != 0)
                 {
-                    if (bytesRead>numberBytesToRead)
+                    if (bytesRead>=numberBytesToRead)
                     {
-                        auxBuffer = numberBytesToRead;
+                        //auxBuffer = numberBytesToRead;
+                        allBytesReceived = true;
                         byte[] tempDataOverflowed = new byte[numberBytesToRead];
                         Array.Copy(buffer, 0, tempDataOverflowed, 0, numberBytesToRead);
                         IncomingData.AddRange(tempDataOverflowed);
@@ -70,6 +72,11 @@ namespace SockNet.Utils
                         byte[] tempData = new byte[bytesRead];
                         Array.Copy(buffer, 0, tempData, 0, bytesRead);
                         IncomingData.AddRange(tempData);
+                    }
+
+                    if(auxBuffer==numberBytesToRead)
+                    {
+                        allBytesReceived = true;
                     }
 
                 }
