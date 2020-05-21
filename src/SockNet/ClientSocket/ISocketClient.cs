@@ -69,7 +69,7 @@ namespace SockNet.ClientSocket
         /// </summary>
         /// <param name="endDelimitator">The fixed sequence of bytes that indicates the end of the telegram.</param>
         /// <returns></returns>
-        //Task<byte[]> ReceiveBytesWithEndDelimitator(byte[] endDelimitator);
+        Task<byte[]> ReceiveBytesWithEndDelimitator(byte[] endDelimitator);
     
     }
 }

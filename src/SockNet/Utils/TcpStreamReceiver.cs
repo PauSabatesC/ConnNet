@@ -83,11 +83,6 @@ namespace SockNet.Utils
                         {
                             dataAcumulated += data;
                         }
-
-                        /*if (data.EndsWith(strEnd))
-                        {
-                            lastChar = true;
-                        }*/
                     }
                 }
 
@@ -98,7 +93,44 @@ namespace SockNet.Utils
         }
 
 
-        //public static async Task<byte[]> ReceiveBytesWithEndingDelimitator(ITcpClient TcpClient, byte endDelimitator) { throw new NotImplementedException(); }
+        public static async Task<byte[]> ReceiveBytesWithEndingDelimitator(ITcpClient TcpClient, byte[] endDelimitator, NetworkStream stream) 
+        {
+            if (TcpClient.CanRead())
+            {
+                byte[] buffer = new byte[512];
+                int bytesRead;
+                bool lastChar = false;
+                string dataAcumulated = string.Empty;
+
+                var strEnd = Encoding.ASCII.GetString(endDelimitator);
+
+                //TODO: add the cancellation token
+                //using (var readCts = new CancellationTokenSource(TimeSpan.FromSeconds(10)))
+
+                while (!lastChar && (bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length).ConfigureAwait(false)) != 0)
+                {
+                    var data = Encoding.ASCII.GetString(buffer, 0, bytesRead);
+
+
+                    if (data.Contains(strEnd))
+                    {
+                        var cleanData = data.Split(new string[] { strEnd }, StringSplitOptions.None)[0];
+                        dataAcumulated += cleanData;
+                        lastChar = true;
+                    }
+                    else
+                    {
+                        dataAcumulated += data;
+                    }
+                    
+                }
+
+                return Utils.Conversor.StringToBytes(dataAcumulated);
+            }
+            else throw new Exception("The socket client could not start reading. Check if the server allows it or the socket client has initialized correctly.");
+            //TODO: change exception type
+
+        }
         //public static async Task<byte[]> ReceiveBytesWithEndingDelimitator(ITcpClient TcpClient, byte endDelimitator) { throw new NotImplementedException(); }
 
 

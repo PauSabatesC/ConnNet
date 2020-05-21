@@ -137,6 +137,7 @@ namespace SockNet.ServerSocket
                     data = await Utils.TcpStreamReceiver.ReceiveBytesWithDelimitators(_tcpClient, _readerStartDelimitator, _readerEndDelimitator, _tcpClient.GetNetworkStream());
                     break;
                 case Reader.ReaderBytesWithEndDelimitator:
+                    data = await Utils.TcpStreamReceiver.ReceiveBytesWithEndingDelimitator(_tcpClient, _readerEndDelimitator, _tcpClient.GetNetworkStream());
                     break;
                 case Reader.ReaderNumberOfBytes:
                     break;
@@ -199,7 +200,12 @@ namespace SockNet.ServerSocket
             _readerAlgorithm = Reader.ReaderBytesWithDelimitators;
         }
 
-        //public void SetReaderBytesWithEndDelimitator(byte endDelimitator) { throw new NotImplementedException(); }
+        /// <inheritdoc/>
+        public void SetReaderBytesWithEndDelimitator(byte[] endDelimitator) 
+        {
+            _readerEndDelimitator = endDelimitator;
+            _readerAlgorithm = Reader.ReaderBytesWithEndDelimitator;
+        }
 
         /// <inheritdoc/>
         public async Task ResponseToClient(TcpClient client, string data) => await ResponseToClient(client, Utils.Conversor.StringToBytes(data));

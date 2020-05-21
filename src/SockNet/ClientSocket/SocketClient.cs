@@ -171,10 +171,11 @@ namespace SockNet.ClientSocket
         }
 
         /// <inheritdoc />
-        /*public Task<byte[]> ReceiveBytesWithEndDelimitator(byte[] endDelimitator)
+        public async Task<byte[]> ReceiveBytesWithEndDelimitator(byte[] endDelimitator)
         {
-            throw new NotImplementedException();
-        }*/
+            _messageReaded = await Utils.TcpStreamReceiver.ReceiveBytesWithEndingDelimitator(TcpClient, endDelimitator, TcpClient.GetNetworkStream());
+            return _messageReaded;
+        }
 
         /// <summary>
         /// Converts the message received in bytes to ASCII string.
