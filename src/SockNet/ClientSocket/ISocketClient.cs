@@ -53,7 +53,7 @@ namespace SockNet.ClientSocket
         /// <param name="bufferSize">Size of the buffer to keep reading tcp bytes. Default is 512 bytes.</param>
         /// <param name="numberBytesToRead">Total amount of bytes you expect to receive as a final message.</param>
         /// <returns>The total amount of bytes specified received from the server.</returns>
-        //Task<byte[]> ReceiveNumberOfBytes(int bufferSize, int numberBytesToRead);
+        Task<byte[]> ReceiveNumberOfBytes(int bufferSize, int numberBytesToRead);
 
         /// <summary>
         /// Receives the tcp data telegram. Reads from the start delimitator until the end delimitator is reached.
@@ -69,7 +69,7 @@ namespace SockNet.ClientSocket
         /// </summary>
         /// <param name="endDelimitator">The fixed sequence of bytes that indicates the end of the telegram.</param>
         /// <returns></returns>
-        //Task<byte[]> ReceiveBytesWithEndDelimitator(byte[] endDelimitator);
+        Task<byte[]> ReceiveBytesWithEndDelimitator(byte[] endDelimitator);
     
     }
 }

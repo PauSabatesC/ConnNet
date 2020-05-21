@@ -73,7 +73,7 @@ namespace SockNet.ServerSocket
         /// </summary>
         /// <param name="bufferSize">Size of the buffer to keep reading tcp bytes. Default is 512 bytes.</param>
         /// <param name="numberBytesToRead">Total amount of bytes you expect to receive as a final message.</param>
-        //void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead);
+        void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead);
 
         /// <summary>
         /// Sets the receiver to get the tcp data telegram. Reads from the start delimitator until the end delimitator is reached.
@@ -86,7 +86,7 @@ namespace SockNet.ServerSocket
         /// Sets the receiver to get the tcp data telegram. Reads since something is received until the end delimitator is reached.
         /// </summary>
         /// <param name="endDelimitator">The fixed sequence of bytes that indicates the end of the telegram.</param>
-        //void SetReaderBytesWithEndDelimitator(byte endDelimitator);
+        void SetReaderBytesWithEndDelimitator(byte[] endDelimitator);
 
     }
 }

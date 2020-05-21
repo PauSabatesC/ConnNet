@@ -27,6 +27,7 @@ namespace SockNet.ServerSocket
         private List<KeyValuePair<TcpClient, byte[]>> _dataReceivedList;
         private object _listLock = new object();
         private Reader _readerAlgorithm;
+        private int _readerBytesToRead;
         private bool _listen;
 
         internal CancellationTokenSource Cts { get => _cts; }
@@ -137,8 +138,10 @@ namespace SockNet.ServerSocket
                     data = await Utils.TcpStreamReceiver.ReceiveBytesWithDelimitators(_tcpClient, _readerStartDelimitator, _readerEndDelimitator, _tcpClient.GetNetworkStream());
                     break;
                 case Reader.ReaderBytesWithEndDelimitator:
+                    data = await Utils.TcpStreamReceiver.ReceiveBytesWithEndingDelimitator(_tcpClient, _readerEndDelimitator, _tcpClient.GetNetworkStream());
                     break;
                 case Reader.ReaderNumberOfBytes:
+                    data = await Utils.TcpStreamReceiver.ReceiveNumberOfBytes(_tcpClient, _readerBuffer, _readerBytesToRead,_tcpClient.GetNetworkStream());
                     break;
                 default:
                     //TODO: think if should throw exception
@@ -189,7 +192,13 @@ namespace SockNet.ServerSocket
             _readerAlgorithm = Reader.ReaderBufferBytes;        
         }
 
-        //public void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead){throw new NotImplementedException();}
+        /// <inheritdoc/>
+        public void SetReaderNumberOfBytes(int bufferSize, int numberBytesToRead)
+        {
+            _readerBuffer = bufferSize;
+            _readerBytesToRead = numberBytesToRead;
+            _readerAlgorithm = Reader.ReaderNumberOfBytes;
+        }
 
         /// <inheritdoc/>
         public void SetReaderBytesWithDelimitators(byte[] startDelimitator, byte[] endDelimitator) 
@@ -199,7 +208,12 @@ namespace SockNet.ServerSocket
             _readerAlgorithm = Reader.ReaderBytesWithDelimitators;
         }
 
-        //public void SetReaderBytesWithEndDelimitator(byte endDelimitator) { throw new NotImplementedException(); }
+        /// <inheritdoc/>
+        public void SetReaderBytesWithEndDelimitator(byte[] endDelimitator) 
+        {
+            _readerEndDelimitator = endDelimitator;
+            _readerAlgorithm = Reader.ReaderBytesWithEndDelimitator;
+        }
 
         /// <inheritdoc/>
         public async Task ResponseToClient(TcpClient client, string data) => await ResponseToClient(client, Utils.Conversor.StringToBytes(data));
