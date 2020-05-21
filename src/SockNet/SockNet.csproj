@@ -5,7 +5,7 @@
     <ApplicationIcon />
     <Win32Resource />
     <Authors>PauSabatesC</Authors>
-    <Version>1.0.4</Version>
+    <Version>1.0.2</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>The easiest and fastest way to work with sockets in C#</Description>
