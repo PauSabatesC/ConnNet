@@ -10,7 +10,7 @@
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/97b9677cd0354202b7d0bb4fd9e364fb)](https://www.codacy.com/manual/PauSabatesC/SockNet?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=PauSabatesC/SockNet&amp;utm_campaign=Badge_Grade)
 [![Nuget](https://img.shields.io/nuget/v/SockNet)](https://www.nuget.org/packages/SockNet/)
 [![Build status](https://ci.appveyor.com/api/projects/status/x9mkgssl3n6yb9p7?svg=true)](https://ci.appveyor.com/project/PauSabatesC/socknet-kaa6k)
-
+![Nuget](https://img.shields.io/nuget/dt/SockNet?label=Downloads)
 
 ### This library is a wrapper of common tcp and network streams libaries in order to act as a more high-level and developer friendly api to deal with socket communications.
 
