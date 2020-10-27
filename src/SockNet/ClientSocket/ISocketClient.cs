@@ -30,10 +30,20 @@ namespace SockNet.ClientSocket
         Task<bool> Connect();
 
         /// <summary>
-        /// Closes the TCP socket client connection correctly.
+        /// Closes the socket connection and allows its reuse.
         /// </summary>
         void Disconnect();
 
+        /// <summary>
+        /// Closes and disposes the client tcp connection.
+        /// </summary>
+        void Close();
+
+        /// <summary>
+        /// Free all assigned resources to socket client. Not necessary to call if calling Close().
+        /// </summary>
+        void Dispose();
+    
         /// <summary>
         /// Receives an unknown number of bytes. Reads data until it stops receiving.
         /// </summary>

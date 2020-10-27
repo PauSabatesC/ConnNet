@@ -47,6 +47,11 @@ namespace SockNet.ClientSocket
             _tcpClient.Dispose();
         }
 
+        public void Disconnect()
+        {
+            _tcpClient.Client.Disconnect(true);
+        }
+
         public void EndConnect(IAsyncResult request)
         {
             _tcpClient.EndConnect(request);

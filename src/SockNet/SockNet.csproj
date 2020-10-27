@@ -5,14 +5,14 @@
     <ApplicationIcon />
     <Win32Resource />
     <Authors>PauSabatesC</Authors>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>The easiest and fastest way to work with sockets in C#</Description>
     <PackageProjectUrl>https://github.com/PauSabatesC/SockNet</PackageProjectUrl>
     <RepositoryUrl>https://github.com/PauSabatesC/SockNet</RepositoryUrl>
     <PackageTags>socket, c#, easy, tcp, server</PackageTags>
-    <PackageReleaseNotes>1.0.1 LTS</PackageReleaseNotes>
+    <PackageReleaseNotes>Bug fixed dispose methods</PackageReleaseNotes>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

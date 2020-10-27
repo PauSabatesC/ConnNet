@@ -115,9 +115,20 @@ namespace SockNet.ClientSocket
         {
             if (TcpClient.Connected())
             {
-                TcpClient.Dispose();
-                TcpClient.Close();
+                TcpClient.Disconnect();
             }
+        }
+
+        /// <inheritdoc/>
+        public void Close()
+        {
+            TcpClient.Close(); 
+        }
+
+        /// <inheritdoc/>
+        public void Dispose()
+        {
+            TcpClient.Dispose();
         }
 
         /// <inheritdoc />

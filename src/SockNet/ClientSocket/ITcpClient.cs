@@ -13,6 +13,7 @@ namespace SockNet.ClientSocket
         void EndConnect(IAsyncResult request);
         void Dispose();
         void Close();
+        void Disconnect();
         Task Connect(string ip, int port);
         void GetStream();
         Task SendData(byte[] data, CancellationToken ctkn);
