@@ -30,7 +30,17 @@
         </member>
         <member name="M:SockNet.ClientSocket.ISocketClient.Disconnect">
             <summary>
-            Closes the TCP socket client connection correctly.
+            Closes the socket connection and allows its reuse.
+            </summary>
+        </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.Close">
+            <summary>
+            Closes and disposes the client tcp connection.
+            </summary>
+        </member>
+        <member name="M:SockNet.ClientSocket.ISocketClient.Dispose">
+            <summary>
+            Free all assigned resources to socket client. Not necessary to call if calling Close().
             </summary>
         </member>
         <member name="M:SockNet.ClientSocket.ISocketClient.ReceiveBytes">
@@ -123,6 +133,12 @@
             <inheritdoc/>
         </member>
         <member name="M:SockNet.ClientSocket.SocketClient.Disconnect">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.Close">
+            <inheritdoc/>
+        </member>
+        <member name="M:SockNet.ClientSocket.SocketClient.Dispose">
             <inheritdoc/>
         </member>
         <member name="M:SockNet.ClientSocket.SocketClient.Send(System.String)">
