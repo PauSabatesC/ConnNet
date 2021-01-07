@@ -100,11 +100,27 @@ namespace SockNet.ServerSocket
                     // There's no await - the ReadTcpData handler is going to return immediately so that we can handle the next petition.
                     // Like a Task.Run imho.
                     //var t = ReadTcpData(client);
-                    var t = Task.Run(() => ReadTcpData(client));
+                    var t = Task.Run(() => HandleClient(client));
                 }
                 else
                 {
                     throw new Exception("The client has disconnected or can not be retrieved.");
+                }
+            }
+        }
+
+
+        private async Task HandleClient(TcpClient client)
+        {
+            while(_listen)
+            {
+                try
+                {
+                    await this.ReadTcpData(client);
+                }
+                catch (ObjectDisposedException)
+                {
+                    throw new Exception("Error reading more data from one client.");
                 }
             }
         }

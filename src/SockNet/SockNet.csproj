@@ -5,7 +5,7 @@
     <ApplicationIcon />
     <Win32Resource />
     <Authors>PauSabatesC</Authors>
-    <Version>1.0.3</Version>
+    <Version>1.1.1</Version>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>The easiest and fastest way to work with sockets in C#</Description>
@@ -13,6 +13,10 @@
     <RepositoryUrl>https://github.com/PauSabatesC/SockNet</RepositoryUrl>
     <PackageTags>socket, c#, easy, tcp, server</PackageTags>
     <PackageReleaseNotes>Bug fixed dispose methods</PackageReleaseNotes>
+    <PackageReleaseNotes>Stable version.
++solved bug related with multiple connections not disposing correctly.</PackageReleaseNotes>
+    <AssemblyVersion>1.2.0.0</AssemblyVersion>
+    <FileVersion>1.2.0.0</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
